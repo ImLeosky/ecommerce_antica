@@ -128,15 +128,6 @@ export const baseDictionaryEn = {
       "It started many years ago in the hands of those who taught us to work, believe and love. Today Antica M&M honors that timeless legacy.",
     button: "Discover Our Story",
   },
-  Header: {
-    menu: "MENU",
-    experiences: "EXPERIENCES",
-    products: "PRODUCTS",
-    nosotros: "ABOUT US",
-    gift: "GIFT",
-    reserve: "RESERVE",
-    cart: "CART",
-  },
   Footer: {
     description:
       "Specialty coffee from three generations, grown in the lands of Huila, Colombia.",

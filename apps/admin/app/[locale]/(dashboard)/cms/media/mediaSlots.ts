@@ -1,25 +1,27 @@
 export const mediaSlots = [
-    {
-      group: 'Identidad Visual',
-      items: [
-        { key: 'site_logo', label: 'Logo de la Marca (Header)', type: 'single' },
-        { key: 'site_favicon', label: 'Favicon / Icono del sitio', type: 'single' },
-        { key: 'footer_logo', label: 'Logo del Footer', type: 'single' }
-      ]
-    },
+  {
+    group: "Identidad Visual",
+    items: [
+      { key: "site_logo", label: "Logo de la Marca (Header)", type: "single" },
+      {
+        key: "site_favicon",
+        label: "Favicon / Icono del sitio",
+        type: "single",
+      },
+      { key: "footer_logo", label: "Logo del Footer", type: "single" },
     ],
   },
-{
-      group: 'Home Page',
-      items: [
-        { key: 'home_hero_image', label: 'Imágenes del Hero (Carrusel)', type: 'gallery' },
-        { key: 'home_about_image', label: 'Imagen de "Sobre Nosotros"', type: 'single' },
-        { key: 'home_reservation_bg', label: 'Fondo Sección de Reservas', type: 'single' }
-      ]
-    },
+  {
+    group: "Home Page",
+    items: [
+      {
+        key: "home_hero_image",
+        label: "Imágenes del Hero (Carrusel)",
+        type: "gallery",
+      },
       {
         key: "home_about_image",
-        label: 'Imagen de "Sobre Nosotros"',
+        label: "Imagen de Sobre Nosotros",
         type: "single",
       },
       {

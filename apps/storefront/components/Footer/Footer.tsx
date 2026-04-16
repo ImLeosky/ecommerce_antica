@@ -57,7 +57,7 @@ const Footer = async () => {
         return trimmed;
       }
       const iframeMatch = trimmed.match(/src=["']([^"']+)["']/);
-      if (iframeMatch) {
+      if (iframeMatch && iframeMatch[1]) {
         const url = iframeMatch[1];
         if (url.includes("google.com/maps/embed")) {
           return url;
