@@ -3,6 +3,7 @@ import CafeMenu from "@/components/CafeMenu/CafeMenu";
 import ReservationForm from "@/components/ReservationForm/ReservationForm";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import SpacesSection from "@/components/SpacesSection/SpacesSection";
+import ChefSection from "@/components/ChefSection/ChefSection";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { getCmsMedia } from "@/lib/cms";
 
@@ -18,6 +19,11 @@ export default async function Home(props: {
     "home_spaces_image",
     "/media/DSC01979.jpg",
   )) as string;
+  // @cms-group "Home Page" @cms-label "Imagen Sección Chef"
+  const chefImage = (await getCmsMedia(
+    "home_chef_image",
+    "/media/DSC01073.jpg",
+  )) as string;
   // @cms-group "Home Page" @cms-label "Fondo Sección de Reservas"
   const reservationBg = (await getCmsMedia(
     "home_reservation_bg",
@@ -27,8 +33,11 @@ export default async function Home(props: {
   return (
     <main>
       <Hero />
-      <AboutSection />
+      <AboutSection locale={locale} />
       <ScrollReveal direction="up" delay={200}>
+        <ChefSection imageSrc={chefImage} />
+      </ScrollReveal>
+      <ScrollReveal direction="up" delay={300}>
         <SpacesSection imageSrc={spacesImage} />
       </ScrollReveal>
       <ScrollReveal direction="up" delay={400}>

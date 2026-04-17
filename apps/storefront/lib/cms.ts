@@ -25,6 +25,7 @@ export async function getCmsMedia(
 }
 
 export async function getCmsText(
+  locale: string,
   textKey: string,
   fallbackData: string,
 ): Promise<string> {
@@ -35,11 +36,17 @@ export async function getCmsText(
       .eq("id", "translations")
       .single();
 
-    if (!error && data?.content && data.content[textKey]) {
-      const val = data.content[textKey];
-      if (typeof val === "string" && val.trim() !== "") {
-        return val;
-      }
+    if (error || !data?.content || !data.content[locale]) {
+      return fallbackData;
+    }
+
+    const path = textKey.split(".");
+    let val: any = data.content[locale];
+    for (const p of path) {
+      val = val?.[p];
+    }
+    if (typeof val === "string" && val.trim() !== "") {
+      return val;
     }
   } catch (e) {
     console.error("Error fetching CMS text", e);

@@ -76,44 +76,13 @@ export default async function LocaleLayout(props: {
           property="twitter:description"
           content="Descubre el mejor café del sur de Colombia en Antica M&M"
         />
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function applyTheme() {
-                console.log('Script starting...');
-                try {
-                  var theme = localStorage.getItem('theme');
-                  console.log('Saved theme:', theme);
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    console.log('System theme detected:', theme);
-                  }
-                  console.log('Final theme to apply:', theme);
-                  console.log('document.documentElement:', document.documentElement);
-                  document.documentElement.setAttribute('data-theme', theme);
-                  console.log('Theme applied, element now has:', document.documentElement.getAttribute('data-theme'));
-                } catch (error) {
-                  console.error('Theme script error:', error);
-                }
-              }
-
-              // Try to apply theme immediately
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', applyTheme);
-              } else {
-                applyTheme();
-              }
-            `,
-          }}
-        />
       </head>
       <body>
         <ThemeProvider>
           <NextIntlClientProvider messages={messages} locale={locale}>
             <Header logoUrl={logoUrl} />
             {children}
-            <Footer />
+            <Footer locale={locale} />
             <Toaster position="bottom-right" expand={false} richColors />
           </NextIntlClientProvider>
         </ThemeProvider>

@@ -1,66 +1,77 @@
 .card {
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    box-shadow: 0 10px 40px rgba(18, 16, 14, 0.06);
-    border-radius: 2px;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(18, 16, 14, 0.06);
+  border-radius: 2px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(18, 16, 14, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(18, 16, 14, 0.1);
 }
 
 .imageContainer {
-    background-color: var(--bg-primary);
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 2rem;
+  background-color: var(--bg-primary);
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-primary);
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-primary);
 }
 
 .name {
-    color: var(--text-primary);
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
 }
 
 .price {
-    color: var(--accent-gold);
-    font-family: var(--font-sans);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    flex-grow: 1;
+  color: var(--accent-gold);
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  flex-grow: 1;
 }
 
+.description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+
+.verMas {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.verMas:hover {
+  text-decoration: underline;
+}
 
 /* Contenedor de botones */
 .actions {
-    display: flex;
-    gap: 10px;
-    margin-top: auto;
-}
-
-/* Ajuste móvil */
-@media (max-width: 480px) {
-    .actions {
-        flex-direction: column;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
 }

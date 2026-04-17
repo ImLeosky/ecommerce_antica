@@ -66,7 +66,7 @@ export function HeroClient({
               sizes="100vw"
               quality={85}
               priority={index === 0}
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         ))}

@@ -39,7 +39,7 @@
         },
         {
           "key": "home_reservation_bg",
-          "label": "Fondo Seccion de Reservas",
+          "label": "Fondo Sección de Reservas",
           "type": "single",
           "source": "auto",
           "file": "app/[locale]/page.tsx"
@@ -48,13 +48,6 @@
           "key": "home_hero_image",
           "label": "Imágenes del Hero (Carrusel)",
           "type": "gallery",
-          "source": "auto",
-          "file": "components/Hero/Hero.tsx"
-        },
-        {
-          "key": "home_spaces_image",
-          "label": "Imagen Sección Espacios",
-          "type": "single",
           "source": "auto",
           "file": "app/[locale]/page.tsx"
         }
@@ -73,7 +66,7 @@
         },
         {
           "key": "regala_hero",
-          "label": "Fondo de Cabecera (Regalo)",
+          "label": "Fondo de Cabecera (Regala)",
           "type": "single",
           "source": "auto",
           "file": "app/[locale]/regala/page.tsx"
@@ -86,59 +79,58 @@
           "file": "app/[locale]/experiencias/page.tsx"
         },
         {
+          "key": "productos_hero_gallery",
+          "label": "Galería de Imágenes Hero (Productos)",
+          "type": "gallery",
+          "source": "auto",
+          "file": "app/[locale]/productos/page.tsx"
+        },
+        {
+          "key": "chef_hero",
+          "label": "Fondo de Cabecera (Chef)",
+          "type": "single",
+          "source": "auto",
+          "file": "app/[locale]/chef/page.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Cabeceras de Secciones",
+      "source": "auto",
+      "items": [
+        {
           "key": "checkout_hero",
           "label": "Fondo de Cabecera (Checkout)",
           "type": "single",
           "source": "auto",
           "file": "app/[locale]/checkout/page.tsx"
-        },
-        {
-          "key": "espacios_hero",
-          "label": "Fondo de Cabecera (Espacios)",
-          "type": "single",
-          "source": "auto",
-          "file": "components/SpacesHero/SpacesHero.tsx"
         }
       ]
     },
     {
-      "group": "Pagina Nosotros (Historia Familiar)",
+      "group": "Página Chef",
       "source": "auto",
       "items": [
         {
-          "key": "nosotros_don_luis_image",
-          "label": "Retrato de Don Luis Ortega",
-          "type": "single",
+          "key": "chef_imagenes_1",
+          "label": "Imágenes Chef 1",
+          "type": "gallery",
           "source": "auto",
-          "file": "app/[locale]/nosotros/page.tsx"
+          "file": "app/[locale]/chef/page.tsx"
         },
         {
-          "key": "nosotros_daughter_image",
-          "label": "Retrato La Vision de Antica",
-          "type": "single",
+          "key": "chef_imagenes_2",
+          "label": "Imágenes Chef 2",
+          "type": "gallery",
           "source": "auto",
-          "file": "app/[locale]/nosotros/page.tsx"
+          "file": "app/[locale]/chef/page.tsx"
         },
         {
-          "key": "nosotros_victor_image",
-          "label": "Retrato Crezia Exportacion",
-          "type": "single",
+          "key": "chef_imagenes_3",
+          "label": "Imágenes Chef 3",
+          "type": "gallery",
           "source": "auto",
-          "file": "app/[locale]/nosotros/page.tsx"
-        },
-        {
-          "key": "nosotros_union_image",
-          "label": "Imagen Union (Hermanos)",
-          "type": "single",
-          "source": "auto",
-          "file": "app/[locale]/nosotros/page.tsx"
-        },
-        {
-          "key": "nosotros_family_image",
-          "label": "Retrato Familiar (Pantalla Completa)",
-          "type": "single",
-          "source": "auto",
-          "file": "app/[locale]/nosotros/page.tsx"
+          "file": "app/[locale]/chef/page.tsx"
         }
       ]
     },
@@ -168,12 +160,183 @@
           "file": "app/[locale]/espacios/page.tsx"
         }
       ]
-    },
-    {
-      "group": "Auto-descubiertos",
-      "source": "auto",
-      "items": []
     }
   ],
-  "_lastSync": "2026-04-16T03:19:07.586Z"
+  "textsSlots": [
+    {
+      "group": "About Section",
+      "source": "auto",
+      "items": [
+        {
+          "key": "about_main_title",
+          "label": "Título Principal",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "about_box_subtitle",
+          "label": "Subtítulo",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "About.main_title",
+          "label": "Título Principal",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "About.box_subtitle",
+          "label": "Subtítulo",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Footer",
+      "source": "auto",
+      "items": [
+        {
+          "key": "footer_description",
+          "label": "Descripción del Footer",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_copyright",
+          "label": "Texto de Copyright",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_facebook",
+          "label": "Enlace de Facebook",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_tiktok",
+          "label": "Enlace de TikTok",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_instagram",
+          "label": "Enlace de Instagram",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_maps_embed",
+          "label": "Embed de Google Maps",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "footer_address",
+          "label": "Dirección",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.description",
+          "label": "Descripción del Footer",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.copyright",
+          "label": "Texto de Copyright",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.facebook",
+          "label": "Enlace de Facebook",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.tiktok",
+          "label": "Enlace de TikTok",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.instagram",
+          "label": "Enlace de Instagram",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.mapsEmbed",
+          "label": "Embed de Google Maps",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.address",
+          "label": "Dirección",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Carousel",
+      "source": "auto",
+      "items": [
+        {
+          "key": "Carousel.title_1",
+          "label": "Título 1",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.message_1",
+          "label": "Mensaje 1",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.title_2",
+          "label": "Título 2",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.message_2",
+          "label": "Mensaje 2",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.title_3",
+          "label": "Título 3",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.message_3",
+          "label": "Mensaje 3",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.title_4",
+          "label": "Título 4",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        },
+        {
+          "key": "Carousel.message_4",
+          "label": "Mensaje 4",
+          "source": "auto",
+          "file": "components/AboutSection/AboutSection.tsx"
+        }
+      ]
+    }
+  ],
+  "_lastSync": "2026-04-17T06:13:19.108Z"
 }

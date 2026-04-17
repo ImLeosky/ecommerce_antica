@@ -10,6 +10,7 @@ type Product = {
   name: Record<string, string>;
   price: number;
   image_url: string | null;
+  description?: Record<string, string>;
 };
 
 type ProductCardProps = {
@@ -20,6 +21,11 @@ type ProductCardProps = {
 const ProductCard = ({ product, locale }: ProductCardProps) => {
   const t = useTranslations("GiftPage");
   const addItem = useCartStore((state) => state.addItem);
+
+  // Función para quitar etiquetas HTML
+  const stripHtml = (html: string) => {
+    return html.replace(/<[^>]*>/g, "");
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     // Evitamos que al hacer clic en el botón se dispare el Link de la tarjeta (si hubiera uno envolviéndola)
@@ -50,6 +56,24 @@ const ProductCard = ({ product, locale }: ProductCardProps) => {
 
       <h3 className={styles.name}>{product.name[locale]}</h3>
       <p className={styles.price}>${product.price}</p>
+
+      {product.description && product.description[locale] && (
+        <div className={styles.description}>
+          {stripHtml(product.description[locale]).length > 150 ? (
+            <>
+              {stripHtml(product.description[locale]).substring(0, 150)}...
+              <Link
+                href={`/${locale}/experiencias/${product.id}`}
+                className={styles.verMas}
+              >
+                Ver más
+              </Link>
+            </>
+          ) : (
+            stripHtml(product.description[locale])
+          )}
+        </div>
+      )}
 
       <div className={styles.actions}>
         <Link

@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { getCmsMedia } from "@/lib/cms";
 import PageHero from "@/components/PageHero/PageHero";
 import ProductsList from "@/components/ProductsList/ProductsList";
-import styles from "./ExperienciasPage.module.css";
+import styles from "./ProductosPage.module.css";
 
 type Product = {
   id: number;
@@ -19,11 +19,11 @@ type Category = {
   name: Record<string, string>;
 };
 
-async function getExperienceProducts() {
+async function getProductsAndCategories() {
   const locale = await getLocale();
 
   try {
-    // Get categories to find EXPERIENCIAS
+    // Get all categories
     const { data: categories, error: catError } = await supabase
       .from("categories")
       .select("*");
@@ -33,42 +33,45 @@ async function getExperienceProducts() {
       return { products: [], categories: [] };
     }
 
-    // Find the EXPERIENCIAS category
+    // Find the EXPERIENCIAS category to exclude
     const experienceCategory = categories?.find(
       (cat) =>
         cat.name &&
         cat.name[locale] === (locale === "es" ? "EXPERIENCIAS" : "EXPERIENCES"),
     );
 
-    if (!experienceCategory) {
-      console.log("No EXPERIENCIAS category found");
-      return { products: [], categories: [] };
+    // Get products excluding experiences
+    let query = supabase.from("products").select("*");
+    if (experienceCategory) {
+      query = query.neq("category_id", experienceCategory.id);
     }
 
-    // Get products from EXPERIENCIAS category
-    const { data: products, error: prodError } = await supabase
-      .from("products")
-      .select("*")
-      .eq("category_id", experienceCategory.id);
+    const { data: products, error: prodError } = await query;
 
     if (prodError) {
       console.error("Error fetching products:", prodError);
-      return { products: [], categories: [experienceCategory] };
+      return { products: [], categories: categories || [] };
     }
 
-    return { products: products || [], categories: [experienceCategory] };
+    // Also exclude experiences category from categories list
+    const filteredCategories =
+      categories?.filter(
+        (cat) => !experienceCategory || cat.id !== experienceCategory.id,
+      ) || [];
+
+    return { products: products || [], categories: filteredCategories };
   } catch (err) {
     console.error("Unexpected error:", err);
     return { products: [], categories: [] };
   }
 }
 
-export default async function ExperienciasPage() {
+export default async function ProductosPage() {
   const locale = await getLocale();
-  const { products, categories } = await getExperienceProducts();
-  const t = await getTranslations("ExperienciasPage");
-  // @cms-group "Cabeceras de Secciones" @cms-label "Galería de Imágenes Hero (Experiencias)" @cms-type gallery
-  const heroImages = (await getCmsMedia("experiencias_hero_gallery", [
+  const { products, categories } = await getProductsAndCategories();
+  const t = await getTranslations("ProductosPage");
+  // @cms-group "Cabeceras de Secciones" @cms-label "Galería de Imágenes Hero (Productos)" @cms-type gallery
+  const heroImages = (await getCmsMedia("productos_hero_gallery", [
     "/media/DSC01073.jpg",
   ])) as string[];
 
@@ -87,7 +90,7 @@ export default async function ExperienciasPage() {
             products={products}
             categories={categories}
             locale={locale}
-            showCategoryFilter={false}
+            showCategoryFilter={true}
           />
         </div>
       </section>

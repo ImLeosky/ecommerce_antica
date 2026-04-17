@@ -44,6 +44,7 @@ const Header = ({ logoUrl }: HeaderProps) => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   const totalItems = useCartStore((state) => state.getTotalItems());
 
@@ -119,7 +120,17 @@ const Header = ({ logoUrl }: HeaderProps) => {
                 onClick={() => setIsCartOpen(true)}
                 className={styles.cartBtn}
               >
-                🛒 {t("cart")} ({mounted ? totalItems : 0})
+                <img
+                  src={`/cart-${theme === "light" ? "black" : "white"}.svg`}
+                  alt="Cart"
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    marginRight: "8px",
+                    verticalAlign: "middle",
+                  }}
+                />
+                {t("cart")} ({mounted ? totalItems : 0})
               </button>
 
               <button onClick={toggleLanguage} className={styles.langSelector}>
@@ -149,7 +160,10 @@ const Header = ({ logoUrl }: HeaderProps) => {
           >
             {t("experiences")}
           </Link>
-          <Link href="#" onClick={() => setIsMenuOpen(false)}>
+          <Link
+            href={`/${locale}/productos`}
+            onClick={() => setIsMenuOpen(false)}
+          >
             {t("products")}
           </Link>
           <IntlLink href="/nosotros" onClick={() => setIsMenuOpen(false)}>
@@ -157,6 +171,9 @@ const Header = ({ logoUrl }: HeaderProps) => {
           </IntlLink>
           <IntlLink href="/espacios" onClick={() => setIsMenuOpen(false)}>
             {t("spaces")}
+          </IntlLink>
+          <IntlLink href="/chef" onClick={() => setIsMenuOpen(false)}>
+            {t("chef")}
           </IntlLink>
 
           <div className={styles.mobileOnly}>
@@ -182,7 +199,17 @@ const Header = ({ logoUrl }: HeaderProps) => {
               }}
               className={styles.mobileNavBtn}
             >
-              🛒 {t("cart")} ({mounted ? totalItems : 0})
+              <img
+                src={`/cart-${theme === "light" ? "black" : "white"}.svg`}
+                alt="Cart"
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  marginRight: "8px",
+                  verticalAlign: "middle",
+                }}
+              />
+              {t("cart")} ({mounted ? totalItems : 0})
             </button>
 
             <button

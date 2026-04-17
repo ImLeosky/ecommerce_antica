@@ -13,7 +13,7 @@
   "dependencies": {
     "@repo/ui": "*",
     "@supabase/supabase-js": "^2.102.1",
-    "next": "16.1.7",
+    "next": "^16.2.3",
     "next-intl": "^4.9.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

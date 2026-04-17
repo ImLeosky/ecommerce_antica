@@ -6,8 +6,8 @@ Este documento explica cómo crear nuevas secciones o componentes en el Storefro
 
 El script `scripts/cms-sync.mjs` escanea los archivos del Storefront en busca de:
 
-1. Llamadas a `getCmsMedia()` → Detecta slots de imágenes
-2. Llamadas a `getCmsText()` → Detecta slots de texto
+1. Llamadas a `getCmsMedia()` → Detecta slots de imágenes (actualiza `mediaSlots`)
+2. Llamadas a `getCmsText()` → Detecta slots de texto (actualiza `textsSlots`)
 
 El script busca **anotaciones** en los comentarios justo antes de cada llamada para determinar el grupo, label y tipo.
 
@@ -37,6 +37,8 @@ import { getCmsText } from "@/lib/cms";
 
 const texto = (await getCmsText("mi_texto", "Texto por defecto")) as string;
 ```
+
+**Nota**: Los slots de texto se detectan automáticamente y se agregan a `textsSlots` en el schema. Para que aparezcan en **CMS > Texts** en el admin, deben agregarse manualmente a `apps/admin/app/[locale]/(dashboard)/cms/texts/baseDictionary.ts` bajo la sección correspondiente (ej. `About`), tanto en `baseDictionaryEs` como `baseDictionaryEn`. El admin usa este diccionario base para mostrar los campos editables.
 
 ---
 
@@ -119,8 +121,10 @@ Esto actualiza `packages/cms-config/schema.json` con los nuevos slots detectados
 
 Los nuevos campos aparecerán en:
 
-- **CMS > Media** → Para imágenes (`getCmsMedia`)
-- **CMS > Texts** → Para textos (`getCmsText`)
+- **CMS > Media** → Para imágenes (`getCmsMedia`), usando el schema actualizado
+- **CMS > Texts** → Para textos (`getCmsText`), después de agregar al `baseDictionary.ts`
+
+Los slots de texto se almacenan en `textsSlots` en el schema y se gestionan por separado de los medios.
 
 ---
 
@@ -137,6 +141,8 @@ Los nuevos campos aparecerán en:
    - `gallery`: Usar un array como `["/img1.jpg", "/img2.jpg"]`
 
 5. **El grupo "Auto-descubiertos"**: Si no especificas `@cms-group`, el slot aparecerá en este grupo.
+
+6. **Eliminar textos no usados**: Si cambias el componente y dejas de usar ciertos `getCmsText`, remueve las entradas correspondientes de `baseDictionary.ts` para que no aparezcan en el admin. Los datos antiguos en la base de datos permanecerán pero no serán editables.
 
 ---
 
@@ -179,9 +185,8 @@ npm run dev
 
 ### El slot no aparece en el Admin
 
-- Verifica que las anotaciones estén en el formato correcto
-- Asegúrate de que el comentario esté justo antes de la llamada a `getCmsMedia` o `getCmsText`
-- Ejecuta `npm run cms:sync` para actualizar el schema
+- **Para imágenes**: Verifica que las anotaciones estén en el formato correcto, el comentario esté justo antes de la llamada a `getCmsMedia`, y ejecuta `npm run cms:sync` para actualizar el schema
+- **Para textos**: Además de las anotaciones y `npm run cms:sync`, agrega el slot manualmente a `apps/admin/app/[locale]/(dashboard)/cms/texts/baseDictionary.ts` en `baseDictionaryEs` y `baseDictionaryEn` bajo la sección apropiada (ej. `About`)
 
 ### Error "Invalid 'pb' parameter" en Google Maps
 

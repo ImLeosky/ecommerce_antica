@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-const Footer = async () => {
+const Footer = async ({ locale }: { locale: string }) => {
   // @cms-group "Footer" @cms-label "Logo del Footer" @cms-type single
   const logoUrl = (await getCmsMedia(
     "footer_logo",
@@ -12,31 +12,36 @@ const Footer = async () => {
 
   // @cms-group "Footer" @cms-label "Descripción del Footer"
   const description = (await getCmsText(
-    "footer_description",
+    locale,
+    "Footer.description",
     "Café de especialidad de tres generaciones, cultivado en las tierras del Huila, Colombia.",
   )) as string;
 
   // @cms-group "Footer" @cms-label "Texto de Copyright"
   const copyrightText = (await getCmsText(
-    "footer_copyright",
+    locale,
+    "Footer.copyright",
     "© 2025 Antica M&M. Todos los derechos reservados.",
   )) as string;
 
   // @cms-group "Footer" @cms-label "Enlace de Facebook"
   const facebookUrl = (await getCmsText(
-    "footer_facebook",
+    locale,
+    "Footer.facebook",
     "https://www.facebook.com/AnticaPitalito",
   )) as string;
 
   // @cms-group "Footer" @cms-label "Enlace de TikTok"
   const tiktokUrl = (await getCmsText(
-    "footer_tiktok",
+    locale,
+    "Footer.tiktok",
     "https://www.tiktok.com/@antica_cafe",
   )) as string;
 
   // @cms-group "Footer" @cms-label "Enlace de Instagram"
   const instagramUrl = (await getCmsText(
-    "footer_instagram",
+    locale,
+    "Footer.instagram",
     "https://www.instagram.com/antica.mm",
   )) as string;
 
@@ -45,7 +50,8 @@ const Footer = async () => {
 
   // @cms-group "Footer" @cms-label "Embed de Google Maps"
   const mapsEmbedRaw = (await getCmsText(
-    "footer_maps_embed",
+    locale,
+    "Footer.mapsEmbed",
     DEFAULT_MAP,
   )) as string;
 
@@ -73,7 +79,8 @@ const Footer = async () => {
 
   // @cms-group "Footer" @cms-label "Dirección"
   const addressText = (await getCmsText(
-    "footer_address",
+    locale,
+    "Footer.address",
     "Pitalito, Huila - Colombia",
   )) as string;
 

@@ -8,12 +8,12 @@ const nextConfig = {
   experimental: {
     // any experimental flags here
   },
-  turbopack: {},
+  // turbopack: {}, // Desactivado temporalmente para probar memory issue
   logging: {
     fetches: {
       fullUrl: true,
     },
-  },
+  }, // Restaurado después de actualizar Next.js
   images: {
     remotePatterns: [
       {

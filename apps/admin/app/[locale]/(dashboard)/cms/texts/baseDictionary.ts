@@ -70,20 +70,22 @@ export const baseDictionaryEs = {
     emptyState: "Próximamente tendremos nuevas experiencias para ti.",
   },
   About: {
-    mainTitle: "El lugar que Pitalito siempre mereció.",
-    boxTitle: "Antica M&M no nació para vender café.",
-    boxSubtitle:
-      "Nació para demostrar que el sur de Colombia tiene todo para vivir en grande.",
-    boxText:
-      "En estas montañas nace el mejor café del mundo.\nPor décadas, lo enviamos al exterior sin jamás quedarnos con lo mejor.\nAntica M&M cambia eso.",
-    bodyParagraph1:
-      "Somos un espacio diseñado con la misma precisión con que se cultiva el café de origen en el Huila. Cada zona de Antica fue pensada para que quien entra, no quiera salir.",
-    bodyParagraph2:
-      "Antica M&M es una forma de decirles: lo logramos y hoy este sueño, es de todos.",
-    finalQuote:
-      '"En cada decisión, en cada detalle, su legado está en el amor atemporal. En cómo decidimos honrar su trabajo."',
-    finalAuthor: "— Antica M&M, Pitalito, Huila",
-    discoverMore: "Conoce Nuestra Historia",
+    main_title: "The pride of southern Colombia",
+    box_subtitle: "Antica M&M, an experience that transcends time",
+  },
+  Carousel: {
+    title_1: "Tradición Familiar",
+    message_1:
+      "Antica M&M no nació para vender café. Nació para preservar el legado de quienes nos enseñaron a trabajar, creer y amar.",
+    title_2: "Calidad Incomparable",
+    message_2:
+      "Cada taza cuenta una historia de dedicación y calidad que trasciende generaciones.",
+    title_3: "Raíces Colombianas",
+    message_3:
+      "Desde las alturas de los Andes, representamos la esencia pura de la tradición cafetera del sur de Colombia.",
+    title_4: "Pasión por el Café",
+    message_4:
+      "Nuestra pasión va más allá del producto; es una celebración de la cultura, la familia y las raíces.",
   },
   Nosotros: {
     heroTitle: "Tres Generaciones, Una Sola Pasión",
@@ -190,20 +192,20 @@ export const baseDictionaryEn = {
     emptyState: "New experiences will be available soon.",
   },
   About: {
-    mainTitle: "The place Pitalito always deserved.",
-    boxTitle: "Antica M&M was not born to sell coffee.",
-    boxSubtitle:
-      "It was born to prove that southern Colombia has everything to live big.",
-    boxText:
-      "The best coffee in the world is born in these mountains.\nFor decades, we sent it abroad without ever keeping the best for ourselves.\nAntica M&M changes that.",
-    bodyParagraph1:
-      "We are a space designed with the same precision used to cultivate single-origin coffee in Huila. Every area of Antica was thought out so that whoever enters won't want to leave.",
-    bodyParagraph2:
-      "Antica M&M is a way of telling them: we did it and today this dream, belongs to everyone.",
-    finalQuote:
-      '"In every decision, in every detail, their legacy is in the timeless love. In how we choose to honor their work."',
-    finalAuthor: "— Antica M&M, Pitalito, Huila",
-    discoverMore: "Learn Our Story",
+    main_title: "The pride of southern Colombia",
+    box_subtitle: "Antica M&M, an experience that transcends time",
+    carousel_title_1: "Family Tradition",
+    carousel_message_1:
+      "Antica M&M was not born to sell coffee. It was born to preserve the legacy of those who taught us to work, believe and love.",
+    carousel_title_2: "Unmatched Quality",
+    carousel_message_2:
+      "Each cup tells a story of dedication and quality that transcends generations.",
+    carousel_title_3: "Colombian Roots",
+    carousel_message_3:
+      "From the heights of the Andes, we represent the pure essence of the coffee tradition of southern Colombia.",
+    carousel_title_4: "Passion for Coffee",
+    carousel_message_4:
+      "Our passion goes beyond the product; it is a celebration of culture, family and roots.",
   },
   Nosotros: {
     heroTitle: "Three Generations, One Passion",

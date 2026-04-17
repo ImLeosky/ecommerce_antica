@@ -14,9 +14,21 @@
     "products": "PRODUCTOS",
     "nosotros": "NOSOTROS",
     "spaces": "ESPACIOS",
+    "chef": "CHEF",
     "gift": "REGALA",
     "reserve": "RESERVA",
     "cart": "CARRITO"
+  },
+  "About": {
+    "mainTitle": "El orgullo del sur de Colombia",
+    "boxSubtitle": "Antica M&M, una experiencia que trasciende el tiempo",
+    "boxTitle": "Tradición y Pasión",
+    "boxText": "Antica M&M no nació para vender café.\n\nNació para preservar el legado de quienes nos enseñaron a trabajar, creer y amar.\n\nCada taza cuenta una historia de dedicación y calidad incomparable.",
+    "bodyParagraph1": "Desde las alturas de los Andes colombianos, donde el café crece en armonía con la naturaleza, Antica M&M representa la esencia pura de la tradición cafetera.",
+    "bodyParagraph2": "Nuestra pasión por el café va más allá del producto; es una celebración de la cultura, la familia y las raíces que nos unen como comunidad.",
+    "finalQuote": "El café no es solo una bebida, es un puente entre generaciones, un lazo que conecta el pasado con el presente.",
+    "finalAuthor": "— Familia Antica M&M",
+    "discoverMore": "Conoce Nuestra Historia"
   },
   "Menu": {
     "title": "MENÚ",
@@ -140,52 +152,19 @@
     "total": "Total a pagar"
   },
   "ExperienciasPage": {
-    "title": "Experiencias Únicas",
-    "subtitle": "Descubre momentos inolvidables en el mundo del café",
-    "emptyState": "Próximamente tendremos nuevas experiencias para ti."
+    "title": "Experiencias",
+    "subtitle": "Descubre momentos únicos",
+    "emptyState": "No hay experiencias disponibles en este momento.",
+    "searchPlaceholder": "Buscar productos...",
+    "allCategories": "Todas las categorías",
+    "noProductsFound": "No se encontraron productos."
   },
-  "About": {
-    "mainTitle": "El lugar que Pitalito siempre mereció.",
-    "boxTitle": "Antica M&M no nació para vender café.",
-    "boxSubtitle": "Nació para demostrar que el sur de Colombia tiene todo para vivir en grande.",
-    "boxText": "En estas montañas nace el mejor café del mundo.\nPor décadas, lo enviamos al exterior sin jamás quedarnos con lo mejor.\nAntica M&M cambia eso.",
-    "bodyParagraph1": "Somos un espacio diseñado con la misma precisión con que se cultiva el café de origen en el Huila. Cada zona de Antica fue pensada para que quien entra, no quiera salir. Para que el café de especialidad tenga el escenario que merece. Para que Pitalito tenga un lugar del que enorgullecerse.",
-    "bodyParagraph2": "Antica M&M es una forma de decirles: lo logramos y hoy este sueño, es de todos.",
-    "finalQuote": "\"En cada decisión, en cada detalle, su legado está en el amor atemporal. En cómo decidimos honrar su trabajo.\"",
-    "finalAuthor": "— Antica M&M, Pitalito, Huila",
-    "discoverMore": "Conoce Nuestra Historia"
-  },
-  "Nosotros": {
-    "heroTitle": "Tres Generaciones, Una Sola Pasión",
-    "heroSubtitle": "La historia de la familia Ortega y el renacer del café en el Huila.",
-    "historyTitle": "El Legado de Don Luis",
-    "historyText": "Luis Ortega no solo sembró café; sembró una visión. Desde los años 70, transformó las montañas de Acevedo en un referente de calidad, fundando fincas como Samaniego y La Fortuna que hoy son el corazón de nuestra producción.",
-    "sections": {
-      "luis": {
-        "title": "Don Luis Ortega",
-        "text": "Pionero y maestro. Su vida ha sido dedicada a modernizar el cultivo y a demostrar que el sur de Colombia produce el mejor café del mundo."
-      },
-      "daughter": {
-        "title": "La Visión de Antica",
-        "text": "Inspirada por su padre, Maria Magdalena Ortega creó Antica M&M para darle al café de especialidad el escenario que merece: un lugar de encuentro y orgullo regional."
-      },
-      "victor": {
-        "title": "Crezia: Café de Exportación",
-        "text": "Víctor Ortega lidera Crezia Colombian Coffee, llevando el legado técnico de su padre a mercados internacionales bajo estándares de excelencia global."
-      },
-      "union": {
-        "title": "Un Puente Entre Tradición y Futuro",
-        "text": "Antica y Crezia no son solo marcas; son el tributo vivo de dos hermanos a la labor de un hombre que creyó en su tierra."
-      },
-      "family": {
-        "title": "Nuestra Raíz: La Familia",
-        "text": "Detrás de cada grano hay una familia unida por el aroma del café y el compromiso con Acevedo."
-      },
-      "inauguration": {
-        "title": "El Sueño Hecho Realidad",
-        "text": "Este sueño no empezó hoy… Empezó hace muchos años, en las manos de quien nos enseñó a trabajar, a creer… y Amar.\n\nHoy, algunas de esas personas ya no están. Pero todo lo que nos dejaron… sigue aquí.\n\nEn cada decisión, en cada detalle, su legado está en el amor atemporal. En cómo decidimos honrar su trabajo.\n\nAntica M&M es eso. Es una forma de decirles: lo logramos y hoy este sueño, es de todos."
-      }
-    }
+  "ProductosPage": {
+    "title": "Productos",
+    "subtitle": "Descubre nuestra selección de productos",
+    "searchPlaceholder": "Buscar productos...",
+    "allCategories": "Todas las categorías",
+    "noProductsFound": "No se encontraron productos."
   },
   "Spaces": {
     "title": "Nuestros Espacios",
@@ -205,6 +184,26 @@
     "space3": {
       "title": "Área de Eventos",
       "description": "Espacio versátil para celebraciones especiales, catas de café, talleres y eventos corporativos. Diseño moderno con capacidad para diferentes configuraciones."
+    }
+  },
+  "Chef": {
+    "title": "Nuestro Chef",
+    "description": "Conoce al maestro detrás de nuestra cocina especializada, dedicada a crear experiencias culinarias únicas.",
+    "button": "Conoce Más",
+    "imageAlt": "Chef de Antica M&M",
+    "heroTitle": "Nuestro Chef",
+    "heroSubtitle": "Pasión por la cocina que transforma cada plato en una obra de arte",
+    "space1": {
+      "title": "Biografía del Chef",
+      "description": "Descubre el viaje culinario de nuestro chef, desde sus inicios hasta convertirse en el corazón de Antica. Una historia de dedicación y amor por la gastronomía."
+    },
+    "space2": {
+      "title": "Especialidades",
+      "description": "Platos signature creados con ingredientes frescos y técnicas innovadoras. Cada bocado cuenta una historia de sabor y creatividad."
+    },
+    "space3": {
+      "title": "Filosofía Culinaria",
+      "description": "La visión que guía nuestra cocina: fusión de tradiciones, innovación constante y respeto por los sabores auténticos de cada ingrediente."
     }
   }
 }

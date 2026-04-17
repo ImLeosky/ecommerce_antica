@@ -1,14 +1,78 @@
 ﻿import React from "react";
-import { getTranslations } from "next-intl/server";
 import { Link } from "../../i18n/routing";
 import { ScrollReveal } from "../ScrollReveal";
-import { getCmsMedia } from "@/lib/cms";
+import { getCmsMedia, getCmsText } from "@/lib/cms";
+import MessagesCarousel from "../MessagesCarousel/MessagesCarousel";
 import styles from "./AboutSection.module.css";
 
-const AboutSection = async () => {
-  const t = await getTranslations("About");
-  // @cms-group "Home Page" @cms-label "Imagen de Sobre Nosotros"
-  const imageUrl = await getCmsMedia("home_about_image", "/media/DSC01203.jpg") as string;
+const AboutSection = async ({ locale }: { locale: string }) => {
+  // @cms-group "About Section" @cms-label "Imagen de Sobre Nosotros" @cms-type single
+  const imageUrl = (await getCmsMedia(
+    "home_about_image",
+    "/media/DSC01203.jpg",
+  )) as string;
+
+  // @cms-group "About Section" @cms-label "Título Principal"
+  const mainTitle = await getCmsText(
+    locale,
+    "About.main_title",
+    "El orgullo del sur de Colombia",
+  );
+
+  // @cms-group "About Section" @cms-label "Subtítulo"
+  const boxSubtitle = await getCmsText(
+    locale,
+    "About.box_subtitle",
+    "Antica M&M, una experiencia que trasciende el tiempo",
+  );
+
+  // Fetch brand messages from CMS
+  const brandMessages = [
+    {
+      // @cms-group "Carousel" @cms-label "Título 1"
+      title: await getCmsText(locale, "Carousel.title_1", "Tradición Familiar"),
+      // @cms-group "Carousel" @cms-label "Mensaje 1"
+      message: await getCmsText(
+        locale,
+        "Carousel.message_1",
+        "Antica M&M no nació para vender café. Nació para preservar el legado de quienes nos enseñaron a trabajar, creer y amar.",
+      ),
+    },
+    {
+      // @cms-group "Carousel" @cms-label "Título 2"
+      title: await getCmsText(
+        locale,
+        "Carousel.title_2",
+        "Calidad Incomparable",
+      ),
+      // @cms-group "Carousel" @cms-label "Mensaje 2"
+      message: await getCmsText(
+        locale,
+        "Carousel.message_2",
+        "Cada taza cuenta una historia de dedicación y calidad que trasciende generaciones.",
+      ),
+    },
+    {
+      // @cms-group "Carousel" @cms-label "Título 3"
+      title: await getCmsText(locale, "Carousel.title_3", "Raíces Colombianas"),
+      // @cms-group "Carousel" @cms-label "Mensaje 3"
+      message: await getCmsText(
+        locale,
+        "Carousel.message_3",
+        "Desde las alturas de los Andes, representamos la esencia pura de la tradición cafetera del sur de Colombia.",
+      ),
+    },
+    {
+      // @cms-group "Carousel" @cms-label "Título 4"
+      title: await getCmsText(locale, "Carousel.title_4", "Pasión por el Café"),
+      // @cms-group "Carousel" @cms-label "Mensaje 4"
+      message: await getCmsText(
+        locale,
+        "Carousel.message_4",
+        "Nuestra pasión va más allá del producto; es una celebración de la cultura, la familia y las raíces.",
+      ),
+    },
+  ];
 
   return (
     <section className={styles.aboutSection}>
@@ -28,87 +92,22 @@ const AboutSection = async () => {
             <div className={styles.heroContent}>
               <ScrollReveal direction="right" delay={300}>
                 <h2 className={`${styles.mainTitle} text-serif`}>
-                  {t("mainTitle")}
+                  {mainTitle}
                 </h2>
               </ScrollReveal>
               <ScrollReveal direction="up" delay={500}>
                 <div className={styles.titleDivider}></div>
               </ScrollReveal>
               <ScrollReveal direction="left" delay={700}>
-                <p className={styles.heroSubtitle}>{t("boxSubtitle")}</p>
+                <p className={styles.heroSubtitle}>{boxSubtitle}</p>
               </ScrollReveal>
             </div>
           </div>
         </ScrollReveal>
 
-        {/* Featured Content */}
+        {/* Messages Carousel */}
         <ScrollReveal direction="up" delay={200}>
-          <div className={styles.contentGrid}>
-            <ScrollReveal direction="left" delay={400}>
-              <div className={styles.featuredCard}>
-                <ScrollReveal direction="up" delay={500}>
-                  <div className={styles.cardHeader}>
-                    <h3 className={styles.cardTitle}>{t("boxTitle")}</h3>
-                    <div className={styles.cardAccent}></div>
-                  </div>
-                </ScrollReveal>
-
-                <ScrollReveal direction="fade" delay={700}>
-                  <div className={styles.cardContent}>
-                    {t("boxText")
-                      .split("\n")
-                      .map((line, index) => (
-                        <ScrollReveal key={index} direction="up" delay={800 + index * 200}>
-                          <p className={index === 2 ? styles.highlightText : ""}>
-                            {line}
-                          </p>
-                        </ScrollReveal>
-                      ))}
-                  </div>
-                </ScrollReveal>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal direction="right" delay={600}>
-              <div className={styles.storySection}>
-                <div className={styles.storyContent}>
-                  <ScrollReveal direction="up" delay={800}>
-                    <p className={styles.storyParagraph}>{t("bodyParagraph1")}</p>
-                  </ScrollReveal>
-                  <ScrollReveal direction="up" delay={1000}>
-                    <p className={styles.storyParagraph}>{t("bodyParagraph2")}</p>
-                  </ScrollReveal>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </ScrollReveal>
-
-        {/* Quote Section */}
-        <ScrollReveal direction="up" delay={300}>
-          <div className={styles.quoteSection}>
-            <ScrollReveal direction="fade" delay={500}>
-              <div className={styles.quoteCard}>
-                <ScrollReveal direction="up" delay={700}>
-                  <blockquote className={styles.blockquote}>
-                    {t("finalQuote")}
-                  </blockquote>
-                </ScrollReveal>
-                <ScrollReveal direction="up" delay={900}>
-                  <cite className={styles.author}>{t("finalAuthor")}</cite>
-                </ScrollReveal>
-                <ScrollReveal direction="up" delay={1100}>
-                  <div className={styles.quoteActions}>
-                    <Link href="/nosotros">
-                      <button className={styles.ctaButton}>
-                        {t("discoverMore")}
-                      </button>
-                    </Link>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </ScrollReveal>
-          </div>
+          <MessagesCarousel messages={brandMessages} />
         </ScrollReveal>
       </div>
     </section>
@@ -116,5 +115,3 @@ const AboutSection = async () => {
 };
 
 export default AboutSection;
-
-
