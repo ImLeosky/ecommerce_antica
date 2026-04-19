@@ -1,10 +1,7 @@
 "use client";
 
-"use client";
-
-"use client";
-
 import { useState, useEffect, useRef } from "react";
+import { useLocale } from "next-intl";
 import { supabase } from "@/lib/supabaseClient";
 import { notFound } from "next/navigation";
 import styles from "./ProductDetail.module.css";
@@ -38,7 +35,7 @@ async function getProduct(id: string) {
 }
 
 export default function ProductDetailPage({ params }: PageProps) {
-  const [locale] = useState<string>("es");
+  const locale = useLocale();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -48,7 +45,6 @@ export default function ProductDetailPage({ params }: PageProps) {
   useEffect(() => {
     const fetchData = async () => {
       const resolvedParams = await params;
-      setLocale(resolvedParams.locale);
 
       const prod = await getProduct(resolvedParams.id);
       if (!prod) {
