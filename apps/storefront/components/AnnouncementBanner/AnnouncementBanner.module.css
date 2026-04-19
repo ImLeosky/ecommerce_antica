@@ -1,0 +1,28 @@
+.banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--accent-gold);
+  padding: 6px 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  z-index: 1000;
+}
+
+.text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .banner {
+  background-color: var(--bg-dark);
+  border-top-color: var(--border-color);
+}
+
+[data-theme="dark"] .text {
+  color: var(--text-light);
+}

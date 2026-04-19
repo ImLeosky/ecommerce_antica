@@ -12,6 +12,8 @@ type Product = {
   image_url: string | null;
   category_id: number;
   description?: Record<string, string>;
+  available: boolean;
+  buyable: boolean;
 };
 
 type Category = {
@@ -45,11 +47,12 @@ async function getExperienceProducts() {
       return { products: [], categories: [] };
     }
 
-    // Get products from EXPERIENCIAS category
+    // Get products from EXPERIENCIAS category and only available ones
     const { data: products, error: prodError } = await supabase
       .from("products")
       .select("*")
-      .eq("category_id", experienceCategory.id);
+      .eq("category_id", experienceCategory.id)
+      .eq("available", true);
 
     if (prodError) {
       console.error("Error fetching products:", prodError);
@@ -75,9 +78,11 @@ export default async function ExperienciasPage() {
   return (
     <>
       <PageHero
-        title={t("title")}
-        subtitle={t("subtitle")}
-        backgroundImages={heroImages}
+        slides={heroImages.map((image) => ({
+          image,
+          title: t("title"),
+          subtitle: t("subtitle"),
+        }))}
       />
 
       {/* Products Section */}

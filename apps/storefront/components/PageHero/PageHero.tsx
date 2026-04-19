@@ -3,48 +3,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./PageHero.module.css";
 
-interface PageHeroProps {
+interface Slide {
+  image: string;
   title: string;
   subtitle: string;
-  backgroundImage?: string;
-  backgroundImages?: string[];
-  showButton?: boolean;
   buttonText?: string;
   buttonLink?: string;
 }
 
-const PageHero: React.FC<PageHeroProps> = ({
-  title,
-  subtitle,
-  backgroundImage,
-  backgroundImages,
-  showButton = false,
-  buttonText,
-  buttonLink,
-}) => {
-  // Determine which images to use
-  const images = backgroundImages || (backgroundImage ? [backgroundImage] : []);
+interface PageHeroProps {
+  slides: Slide[];
+}
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const PageHero: React.FC<PageHeroProps> = ({ slides }) => {
+  // Ensure at least 3 slides by repeating if necessary
+  const extendedSlides =
+    slides.length >= 3
+      ? slides
+      : Array(3)
+          .fill(slides[0])
+          .map((slide, index) => ({
+            ...slide,
+            // If more slides needed, keep same content but could customize
+          }));
+
+  const [currentIndex, setCurrentIndex] = useState(0);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
-  // Image cycling effect
+  // Slide cycling effect
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (extendedSlides.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % extendedSlides.length);
     }, 10000); // Change every 10 seconds
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [extendedSlides.length]);
 
   useEffect(() => {
     let animationFrameId: number;
 
     const handleScroll = () => {
       animationFrameId = requestAnimationFrame(() => {
-        const currentImageRef = imageRefs.current[currentImageIndex];
+        const currentImageRef = imageRefs.current[currentIndex];
         if (!currentImageRef) return;
         const scrollY = window.scrollY;
         // Calculate scale: starts at 1 and zooms in as you scroll down
@@ -63,32 +65,38 @@ const PageHero: React.FC<PageHeroProps> = ({
       window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [currentImageIndex]);
+  }, [currentIndex]);
+
+  const currentSlide = extendedSlides[currentIndex];
 
   return (
     <section className={styles.hero}>
       <div className={styles.heroImageContainer}>
-        {images.map((image, index) => (
+        {extendedSlides.map((slide, index) => (
           <img
             key={index}
             ref={(el) => {
               imageRefs.current[index] = el;
             }}
-            src={image}
+            src={slide.image}
             alt={`Page Hero ${index + 1}`}
             className={`${styles.heroImage} ${
-              index === currentImageIndex ? styles.active : ""
+              index === currentIndex ? styles.active : ""
             }`}
           />
         ))}
       </div>
       <div className={styles.overlay}></div>
       <div className={`${styles.heroContent} fadeIn`}>
-        <h1 className={`${styles.heroTitle} text-serif`}>{title}</h1>
-        <p className={`${styles.heroSubtitle} text-sans`}>{subtitle}</p>
-        {showButton && buttonText && buttonLink && (
-          <a href={buttonLink} className={styles.heroButton}>
-            {buttonText}
+        <h1 className={`${styles.heroTitle} text-serif`}>
+          {currentSlide.title}
+        </h1>
+        <p className={`${styles.heroSubtitle} text-sans`}>
+          {currentSlide.subtitle}
+        </p>
+        {currentSlide.buttonText && currentSlide.buttonLink && (
+          <a href={currentSlide.buttonLink} className={styles.heroButton}>
+            {currentSlide.buttonText}
           </a>
         )}
       </div>

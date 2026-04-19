@@ -280,6 +280,42 @@
           "label": "Dirección",
           "source": "auto",
           "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.explore.home",
+          "label": "Texto de Explorar - Inicio",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.explore.about",
+          "label": "Texto de Explorar - Nosotros",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.explore.experiences",
+          "label": "Texto de Explorar - Experiencias",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.explore.spaces",
+          "label": "Texto de Explorar - Espacios",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.explore.gift",
+          "label": "Texto de Explorar - Regala",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
+        },
+        {
+          "key": "Footer.exploreTitle",
+          "label": "Título de la Sección Explorar",
+          "source": "auto",
+          "file": "components/Footer/Footer.tsx"
         }
       ]
     },
@@ -336,7 +372,199 @@
           "file": "components/AboutSection/AboutSection.tsx"
         }
       ]
+    },
+    {
+      "group": "General",
+      "source": "auto",
+      "items": [
+        {
+          "key": "announcement_schedule",
+          "label": "Texto del Banner de Horarios",
+          "source": "auto",
+          "file": "components/AnnouncementBanner/AnnouncementBanner.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Auto-descubiertos",
+      "source": "auto",
+      "items": [
+        {
+          "key": "home_hero_title${index + 1}",
+          "label": "Home Hero Title${Index + 1}",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_subtitle${index + 1}",
+          "label": "Home Hero Subtitle${Index + 1}",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_button${index + 1}",
+          "label": "Home Hero Button${Index + 1}",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_link${index + 1}",
+          "label": "Home Hero Link${Index + 1}",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Hero",
+      "source": "auto",
+      "items": [
+        {
+          "key": "home_hero_title1",
+          "label": "Título del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_subtitle1",
+          "label": "Subtítulo del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_button1",
+          "label": "Texto del Botón del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_link1",
+          "label": "Enlace del Botón del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_title2",
+          "label": "Título del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_subtitle2",
+          "label": "Subtítulo del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_button2",
+          "label": "Texto del Botón del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_link2",
+          "label": "Enlace del Botón del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_title3",
+          "label": "Título del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_subtitle3",
+          "label": "Subtítulo del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_button3",
+          "label": "Texto del Botón del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "home_hero_link3",
+          "label": "Enlace del Botón del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_title1",
+          "label": "Título del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_subtitle1",
+          "label": "Subtítulo del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_button1",
+          "label": "Texto del Botón del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_link1",
+          "label": "Enlace del Botón del Slide 1",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_title2",
+          "label": "Título del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_subtitle2",
+          "label": "Subtítulo del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_button2",
+          "label": "Texto del Botón del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_link2",
+          "label": "Enlace del Botón del Slide 2",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_title3",
+          "label": "Título del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_subtitle3",
+          "label": "Subtítulo del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_button3",
+          "label": "Texto del Botón del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        },
+        {
+          "key": "Hero.home_hero_link3",
+          "label": "Enlace del Botón del Slide 3",
+          "source": "auto",
+          "file": "components/Hero/Hero.tsx"
+        }
+      ]
     }
   ],
-  "_lastSync": "2026-04-17T06:13:19.108Z"
+  "_lastSync": "2026-04-19T04:20:37.614Z"
 }

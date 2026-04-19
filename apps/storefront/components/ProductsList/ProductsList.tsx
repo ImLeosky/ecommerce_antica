@@ -12,6 +12,8 @@ type Product = {
   image_url: string | null;
   category_id: number;
   description?: Record<string, string>;
+  available: boolean;
+  buyable: boolean;
 };
 
 type Category = {

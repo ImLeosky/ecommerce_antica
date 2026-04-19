@@ -191,4 +191,39 @@
   .links {
     align-items: center;
   }
+
+  .contactLinks {
+    gap: 1rem;
+  }
+}
+
+.contact {
+  margin-top: 2rem;
+}
+
+.contactTitle {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.contactLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contactLink {
+  color: var(--text-light);
+  opacity: 0.8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: opacity 0.3s ease;
+}
+
+.contactLink:hover {
+  opacity: 1;
 }

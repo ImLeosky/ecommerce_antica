@@ -49,9 +49,13 @@ export default async function NosotrosPage({ params }: PageProps) {
   return (
     <div className={styles.wrapper}>
       <PageHero
-        title={t("heroTitle")}
-        subtitle={t("heroSubtitle")}
-        backgroundImage={heroImage}
+        slides={[
+          {
+            image: heroImage,
+            title: t("heroTitle"),
+            subtitle: t("heroSubtitle"),
+          },
+        ]}
       />
 
       {/* 2. INTRODUCCIÓN HISTÓRICA */}

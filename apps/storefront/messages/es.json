@@ -6,7 +6,19 @@
   "Hero": {
     "title": "Este sueño no empezó hoy",
     "subtitle": "Empezó hace muchos años en las manos de quienes nos enseñaron a trabajar, creer y amar. Hoy Antica M&M honra ese legado atemporal.",
-    "button": "Descubre Nuestra Historia"
+    "button": "Descubre Nuestra Historia",
+    "home_hero_title1": "Este sueño no empezó hoy",
+    "home_hero_subtitle1": "Empezó hace muchos años en las manos de quienes nos enseñaron a trabajar, creer y amar. Hoy Antica M&M honra ese legado atemporal.",
+    "home_hero_button1": "Descubre Nuestra Historia",
+    "home_hero_link1": "/es/nosotros",
+    "home_hero_title2": "Experiencias Únicas",
+    "home_hero_subtitle2": "Vive momentos inolvidables con nuestro café premium y experiencias exclusivas.",
+    "home_hero_button2": "Explorar Experiencias",
+    "home_hero_link2": "/es/experiencias",
+    "home_hero_title3": "Productos Exclusivos",
+    "home_hero_subtitle3": "Descubre nuestra selección de productos de alta calidad para llevar el sabor de Antica a casa.",
+    "home_hero_button3": "Ver Productos",
+    "home_hero_link3": "/es/productos"
   },
   "Header": {
     "menu": "MENÚ",
@@ -137,7 +149,9 @@
     "giftSent": "¡Regalo enviado exitosamente!",
     "giftError": "Hubo un error al enviar el regalo. Por favor, inténtalo de nuevo.",
     "viewDetails": "Ver Detalles",
-    "addToCart": "Añadir al Carrito"
+    "addToCart": "Añadir al Carrito",
+    "buyNow": "Comprar Ahora",
+    "notAvailableForPurchase": "No disponible para compra"
   },
   "Checkout": {
     "title": "Finalizar Compra",
@@ -205,5 +219,9 @@
       "title": "Filosofía Culinaria",
       "description": "La visión que guía nuestra cocina: fusión de tradiciones, innovación constante y respeto por los sabores auténticos de cada ingrediente."
     }
+  },
+  "Reviews": {
+    "title": "Opiniones de Nuestros Clientes",
+    "outOf": "de"
   }
 }

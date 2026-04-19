@@ -69,9 +69,13 @@ export default async function SpacesPage() {
   return (
     <main>
       <PageHero
-        title={t("heroTitle")}
-        subtitle={t("heroSubtitle")}
-        backgroundImage={heroImage}
+        slides={[
+          {
+            image: heroImage,
+            title: t("heroTitle"),
+            subtitle: t("heroSubtitle"),
+          },
+        ]}
       />
       <SpacesCarousel spacesData={spacesData} />
     </main>

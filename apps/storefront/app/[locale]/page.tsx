@@ -4,6 +4,7 @@ import ReservationForm from "@/components/ReservationForm/ReservationForm";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import SpacesSection from "@/components/SpacesSection/SpacesSection";
 import ChefSection from "@/components/ChefSection/ChefSection";
+import ReviewsSection from "@/components/ReviewsSection";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { getCmsMedia } from "@/lib/cms";
 
@@ -41,7 +42,16 @@ export default async function Home(props: {
         <SpacesSection imageSrc={spacesImage} />
       </ScrollReveal>
       <ScrollReveal direction="up" delay={400}>
+        <SpacesSection imageSrc={spacesImage} />
+      </ScrollReveal>
+      <ScrollReveal direction="up" delay={500}>
         <CafeMenu />
+      </ScrollReveal>
+      <ScrollReveal direction="up" delay={550}>
+        <ReviewsSection />
+      </ScrollReveal>
+      <ScrollReveal direction="up" delay={600} threshold={0.05}>
+        <ReservationForm reservationBg={reservationBg} />
       </ScrollReveal>
       <ScrollReveal direction="up" delay={600} threshold={0.05}>
         <ReservationForm reservationBg={reservationBg} />

@@ -48,8 +48,26 @@ export async function getCmsText(
     if (typeof val === "string" && val.trim() !== "") {
       return val;
     }
+    return fallbackData;
   } catch (e) {
     console.error("Error fetching CMS text", e);
   }
   return fallbackData;
+}
+
+export async function getSettings(key: string, fallback: any): Promise<any> {
+  try {
+    const { data, error } = await supabase
+      .from("admin_config")
+      .select("value")
+      .eq("key", key)
+      .single();
+
+    if (!error && data?.value !== undefined) {
+      return data.value;
+    }
+  } catch (e) {
+    console.error("Error fetching settings", e);
+  }
+  return fallback;
 }

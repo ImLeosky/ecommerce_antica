@@ -1,14 +1,20 @@
-import React from "react";
-import { getLocale } from "next-intl/server";
+"use client";
+
+import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabaseClient"; // Importamos nuestro cliente
+import { getSettings } from "@/lib/cms";
+import ProductPreviewModal from "@/components/ProductPreviewModal";
 import styles from "./CafeMenu.module.css";
 
 // Definimos los tipos de datos que esperamos de Supabase
 type MenuItem = {
   id: number;
   name: Record<string, string>;
-  description: Record<string, string> | null;
   price: number;
+  description?: Record<string, string>;
+  image_url: string | null;
+  image_gallery: string[];
 };
 
 type MenuCategory = {
@@ -17,33 +23,71 @@ type MenuCategory = {
   products: MenuItem[];
 };
 
-const CafeMenu = async () => {
-  // Obtenemos el idioma actual ('es' o 'en') en el servidor
-  const locale = await getLocale();
+export default function CafeMenu() {
+  const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const longPressTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [locale] = useState<string>("es"); // Default to 'es', adjust as needed
+  const [currency, setCurrency] = useState<string>("PEN"); // Default
 
-  // Hacemos la consulta a Supabase
-  const { data: categories, error } = await supabase
-    .from("categories")
-    .select(
-      `
-      id,
-      name,
-      products (
-        id,
-        name,
-        description,
-        price
-      )
-    `,
-    )
-    .order("sort_order", { ascending: true }) // Ordenamos por el campo sort_order
-    .order("id", { foreignTable: "products", ascending: true }); // Ordenamos productos por id
+  const handleLongPressStart = (product: MenuItem) => {
+    longPressTimeout.current = setTimeout(() => {
+      setSelectedProduct(product);
+      setIsModalOpen(true);
+    }, 1000);
+  };
 
-  if (error || !categories) {
-    // En un caso real, aquí podrías mostrar un componente de error
-    console.error("Error fetching menu:", error);
-    return <section>Error al cargar el menú.</section>;
-  }
+  const handleLongPressEnd = () => {
+    if (longPressTimeout.current) {
+      clearTimeout(longPressTimeout.current);
+      longPressTimeout.current = null;
+    }
+  };
+
+  const [categories, setCategories] = useState<MenuCategory[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch categories
+      const { data: fetchedCategories, error } = await supabase
+        .from("categories")
+        .select(
+          `
+          id,
+          name,
+          products!inner (
+            id,
+            name,
+            description,
+            price,
+            image_url,
+            image_gallery
+          )
+        `,
+        )
+        .eq("products.available", true)
+        .order("sort_order", { ascending: true })
+        .order("id", { foreignTable: "products", ascending: true });
+
+      if (!error && fetchedCategories) {
+        setCategories(fetchedCategories);
+      }
+
+      // Fetch currency
+      const storeSettings = await getSettings("store_settings", {});
+      const fetchedCurrency = storeSettings.currency || "PEN";
+      setCurrency(fetchedCurrency);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isModalOpen]);
 
   // Render each category as a modern card
   const renderCategory = (category: MenuCategory) => (
@@ -51,7 +95,14 @@ const CafeMenu = async () => {
       <h4 className={styles.categoryTitle}>{category.name[locale]}</h4>
       <div className={styles.menuItems}>
         {category.products.map((item) => (
-          <div key={item.id} className={styles.menuItem}>
+          <div
+            key={item.id}
+            className={styles.menuItem}
+            onMouseDown={() => handleLongPressStart(item)}
+            onMouseUp={handleLongPressEnd}
+            onTouchStart={() => handleLongPressStart(item)}
+            onTouchEnd={handleLongPressEnd}
+          >
             <div className={styles.itemContent}>
               <span className={styles.itemName}>{item.name[locale]}</span>
               {item.description && item.description[locale] && (
@@ -61,7 +112,9 @@ const CafeMenu = async () => {
                 />
               )}
             </div>
-            <span className={styles.itemPrice}>${item.price}</span>
+            <span className={styles.itemPrice}>
+              $ {item.price} {currency}
+            </span>
           </div>
         ))}
       </div>
@@ -89,8 +142,19 @@ const CafeMenu = async () => {
 
         <div className={styles.menuGrid}>{categories.map(renderCategory)}</div>
       </div>
+      {selectedProduct &&
+        typeof window !== "undefined" &&
+        createPortal(
+          <ProductPreviewModal
+            product={selectedProduct}
+            locale={locale}
+            onClose={() => {
+              setSelectedProduct(null);
+              setIsModalOpen(false);
+            }}
+          />,
+          document.body,
+        )}
     </section>
   );
-};
-
-export default CafeMenu;
+}

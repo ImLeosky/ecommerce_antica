@@ -46,7 +46,7 @@ const Footer = async ({ locale }: { locale: string }) => {
   )) as string;
 
   const DEFAULT_MAP =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.7471373366902!2d-76.0648682250332!3d1.846243998136877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e250b45daa130e9%3A0xfb0469db8e4d0e10!2sANTICA%20M%26M!5e0!3m2!1ses!2sco!4v1776320116765!5m2!1ses!2sco";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.7471373366902!2d-76.0648682250332!3d1.846243998136877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e250b45daa130e9%3A0xfb0469db8e4d0e10!2sANTICA%20M%26M!5e0!3m2!1ses!2sco!4v1776588791032!5m2!1ses!2sco";
 
   // @cms-group "Footer" @cms-label "Embed de Google Maps"
   const mapsEmbedRaw = (await getCmsText(
@@ -59,8 +59,15 @@ const Footer = async ({ locale }: { locale: string }) => {
     if (!input) return DEFAULT_MAP;
     try {
       const trimmed = input.trim();
-      if (trimmed.includes("google.com/maps/embed")) {
+      if (trimmed.includes("google.com/maps/embed") && !trimmed.includes("<")) {
         return trimmed;
+      }
+      const linkMatch = trimmed.match(/href=["']([^"']+)["']/);
+      if (linkMatch && linkMatch[1]) {
+        const url = linkMatch[1];
+        if (url.includes("google.com/maps/embed")) {
+          return url;
+        }
       }
       const iframeMatch = trimmed.match(/src=["']([^"']+)["']/);
       if (iframeMatch && iframeMatch[1]) {
@@ -81,7 +88,49 @@ const Footer = async ({ locale }: { locale: string }) => {
   const addressText = (await getCmsText(
     locale,
     "Footer.address",
-    "Pitalito, Huila - Colombia",
+    "Pitalito, Huila - Colombia, Solarte",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Texto de Explorar - Inicio"
+  const exploreHome = (await getCmsText(
+    locale,
+    "Footer.explore.home",
+    locale === "es" ? "Inicio" : "Home",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Texto de Explorar - Nosotros"
+  const exploreAbout = (await getCmsText(
+    locale,
+    "Footer.explore.about",
+    locale === "es" ? "Nosotros" : "About Us",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Texto de Explorar - Experiencias"
+  const exploreExperiences = (await getCmsText(
+    locale,
+    "Footer.explore.experiences",
+    locale === "es" ? "Experiencias" : "Experiences",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Texto de Explorar - Espacios"
+  const exploreSpaces = (await getCmsText(
+    locale,
+    "Footer.explore.spaces",
+    locale === "es" ? "Espacios" : "Spaces",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Texto de Explorar - Regala"
+  const exploreGift = (await getCmsText(
+    locale,
+    "Footer.explore.gift",
+    locale === "es" ? "Regala" : "Gift",
+  )) as string;
+
+  // @cms-group "Footer" @cms-label "Título de la Sección Explorar"
+  const exploreTitle = (await getCmsText(
+    locale,
+    "Footer.exploreTitle",
+    locale === "es" ? "Explorar" : "Explore",
   )) as string;
 
   return (
@@ -100,26 +149,31 @@ const Footer = async ({ locale }: { locale: string }) => {
                 />
               </div>
             )}
-            <p className={styles.description}>{description}</p>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </div>
 
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Explorar</h3>
+            <h3 className={styles.sectionTitle}>{exploreTitle}</h3>
             <ul className={styles.links}>
               <li>
-                <Link href="/es">Inicio</Link>
+                <Link href={`/${locale}`}>{exploreHome}</Link>
               </li>
               <li>
-                <Link href="/es/nosotros">Nosotros</Link>
+                <Link href={`/${locale}/nosotros`}>{exploreAbout}</Link>
               </li>
               <li>
-                <Link href="/es/experiencias">Experiencias</Link>
+                <Link href={`/${locale}/experiencias`}>
+                  {exploreExperiences}
+                </Link>
               </li>
               <li>
-                <Link href="/es/espacios">Espacios</Link>
+                <Link href={`/${locale}/espacios`}>{exploreSpaces}</Link>
               </li>
               <li>
-                <Link href="/es/regala">Regala</Link>
+                <Link href={`/${locale}/regala`}>{exploreGift}</Link>
               </li>
             </ul>
           </div>
@@ -184,6 +238,25 @@ const Footer = async ({ locale }: { locale: string }) => {
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
+            </div>
+            <div className={styles.contact}>
+              <h4 className={styles.contactTitle}>Contáctanos</h4>
+              <div className={styles.contactLinks}>
+                <a
+                  href="https://wa.me/573208679696"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactLink}
+                >
+                  WhatsApp: +57 320 867 9696
+                </a>
+                <a
+                  href="mailto:antica_cafe@outlook.com"
+                  className={styles.contactLink}
+                >
+                  Email: antica_cafe@outlook.com
+                </a>
+              </div>
             </div>
           </div>
 

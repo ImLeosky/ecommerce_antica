@@ -3,10 +3,21 @@
 
 export const baseDictionaryEs = {
   Hero: {
-    title: "Este sueño no empezó hoy",
-    subtitle:
+    home_hero_title1: "Este sueño no empezó hoy",
+    home_hero_subtitle1:
       "Empezó hace muchos años en las manos de quienes nos enseñaron a trabajar, creer y amar. Hoy Antica M&M honra ese legado atemporal.",
-    button: "Descubre Nuestra Historia",
+    home_hero_button1: "Descubre Nuestra Historia",
+    home_hero_link1: "/es/nosotros",
+    home_hero_title2: "Experiencias Únicas",
+    home_hero_subtitle2:
+      "Vive momentos inolvidables con nuestro café premium y experiencias exclusivas.",
+    home_hero_button2: "Explorar Experiencias",
+    home_hero_link2: "/es/experiencias",
+    home_hero_title3: "Productos Exclusivos",
+    home_hero_subtitle3:
+      "Descubre nuestra selección de productos de alta calidad para llevar el sabor de Antica a casa.",
+    home_hero_button3: "Ver Productos",
+    home_hero_link3: "/es/productos",
   },
   Header: {
     menu: "MENÚ",
@@ -27,6 +38,14 @@ export const baseDictionaryEs = {
     mapsEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.7471373366902!2d-76.0648682250332!3d1.846243998136877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e250b45daa130e9%3A0xfb0469db8e4d0e10!2sANTICA%20M%26M!5e0!3m2!1ses!2sco!4v1776320116765!5m2!1ses!2sco",
     address: "Pitalito, Huila - Colombia",
+    exploreTitle: "Explorar",
+    explore: {
+      home: "Inicio",
+      about: "Nosotros",
+      experiences: "Experiencias",
+      spaces: "Espacios",
+      gift: "Regala",
+    },
   },
   ReservationForm: {
     title: "Haz una Reserva",
@@ -52,6 +71,7 @@ export const baseDictionaryEs = {
     selectExperience: "Selecciona una Experiencia",
     sendGift: "Enviar Regalo",
     addToCart: "Añadir al Carrito",
+    buyNow: "Comprar Ahora",
   },
   Checkout: {
     title: "Finalizar Compra",
@@ -121,14 +141,29 @@ export const baseDictionaryEs = {
       },
     },
   },
+  General: {
+    announcement_schedule:
+      "Horarios de atención: 9:30 am a 9 pm. Lunes cerrado.",
+  },
 };
 
 export const baseDictionaryEn = {
   Hero: {
-    title: "This dream didn't start today",
-    subtitle:
+    home_hero_title1: "This dream didn't start today",
+    home_hero_subtitle1:
       "It started many years ago in the hands of those who taught us to work, believe and love. Today Antica M&M honors that timeless legacy.",
-    button: "Discover Our Story",
+    home_hero_button1: "Discover Our Story",
+    home_hero_link1: "/en/nosotros",
+    home_hero_title2: "Unique Experiences",
+    home_hero_subtitle2:
+      "Live unforgettable moments with our premium coffee and exclusive experiences.",
+    home_hero_button2: "Explore Experiences",
+    home_hero_link2: "/en/experiencias",
+    home_hero_title3: "Exclusive Products",
+    home_hero_subtitle3:
+      "Discover our selection of high-quality products to bring the flavor of Antica home.",
+    home_hero_button3: "View Products",
+    home_hero_link3: "/en/productos",
   },
   Footer: {
     description:
@@ -140,6 +175,14 @@ export const baseDictionaryEn = {
     mapsEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.7471373366902!2d-76.0648682250332!3d1.846243998136877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e250b45daa130e9%3A0xfb0469db8e4d0e10!2sANTICA%20M%26M!5e0!3m2!1ses!2sco!4v1776320116765!5m2!1ses!2sco",
     address: "Pitalito, Huila - Colombia",
+    exploreTitle: "Explore",
+    explore: {
+      home: "Home",
+      about: "About Us",
+      experiences: "Experiences",
+      spaces: "Spaces",
+      gift: "Gift",
+    },
   },
   Header: {
     menu: "MENU",
@@ -174,6 +217,7 @@ export const baseDictionaryEn = {
     selectExperience: "Select an Experience",
     sendGift: "Send Gift",
     addToCart: "Add to Cart",
+    buyNow: "Buy Now",
   },
   Checkout: {
     title: "Checkout",
@@ -240,5 +284,9 @@ export const baseDictionaryEn = {
         text: "This dream didn't start today… It started many years ago, in the hands of those who taught us to work, to believe… and Love.\n\nToday, some of those people are no longer here. But everything they left us… remains here.\n\nIn every decision, in every detail, their legacy is in timeless love. In how we choose to honor their work.\n\nAntica M&M is that. It is a way of telling them: we did it and today this dream, belongs to everyone.",
       },
     },
+  },
+  General: {
+    announcement_schedule:
+      "Business hours: 9:30 am to 9 pm. Closed on Mondays.",
   },
 };

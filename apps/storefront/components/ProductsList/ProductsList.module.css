@@ -1,8 +1,9 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
   gap: 2rem;
   margin-top: 3rem;
+  justify-content: center;
 }
 
 .emptyState {
@@ -23,7 +24,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
     gap: 1.5rem;
     margin-top: 2rem;
   }

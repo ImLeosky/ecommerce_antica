@@ -9,6 +9,8 @@ type Product = {
   name: Record<string, string>;
   price: number;
   image_url: string | null;
+  available: boolean;
+  buyable: boolean;
 };
 
 type GiftFormProps = {

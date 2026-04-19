@@ -6,7 +6,19 @@
   "Hero": {
     "title": "This dream didn't start today",
     "subtitle": "It started many years ago in the hands of those who taught us to work, believe and love. Today Antica M&M honors that timeless legacy.",
-    "button": "Discover Our Story"
+    "button": "Discover Our Story",
+    "home_hero_title1": "This dream didn't start today",
+    "home_hero_subtitle1": "It started many years ago in the hands of those who taught us to work, believe and love. Today Antica M&M honors that timeless legacy.",
+    "home_hero_button1": "Discover Our Story",
+    "home_hero_link1": "/en/nosotros",
+    "home_hero_title2": "Unique Experiences",
+    "home_hero_subtitle2": "Live unforgettable moments with our premium coffee and exclusive experiences.",
+    "home_hero_button2": "Explore Experiences",
+    "home_hero_link2": "/en/experiencias",
+    "home_hero_title3": "Exclusive Products",
+    "home_hero_subtitle3": "Discover our selection of high-quality products to bring the flavor of Antica home.",
+    "home_hero_button3": "View Products",
+    "home_hero_link3": "/en/productos"
   },
   "Header": {
     "menu": "MENU",
@@ -123,8 +135,8 @@
     "quantity": "Quantity",
     "quantityHelp": "Number of people or groups you want to gift this experience to",
     "voucherValue": "Extra Voucher Value",
-    "voucherPlaceholder": "Select the extra bonus value",
-    "voucherExplanation": "This extra voucher is redeemable at Antíca Café for: premium coffees, event tickets, dishes from our menu, store products and more.",
+    "voucherPlaceholder": "Select the extra voucher value",
+    "voucherExplanation": "This extra voucher is redeemable for consumption at Antíca Café: premium coffees, event entries, dishes from our menu, store products and more.",
     "totalValue": "Total Gift Value",
     "notifyRecipient": "Notify Recipient",
     "recipientName": "Recipient Name",
@@ -137,7 +149,9 @@
     "giftSent": "Gift sent successfully!",
     "giftError": "There was an error sending the gift. Please try again.",
     "viewDetails": "View Details",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "notAvailableForPurchase": "Not available for purchase"
   },
   "Checkout": {
     "title": "Checkout",
@@ -205,5 +219,9 @@
       "title": "Culinary Philosophy",
       "description": "The vision that guides our kitchen: fusion of traditions, constant innovation and respect for the authentic flavors of each ingredient."
     }
+  },
+  "Reviews": {
+    "title": "Customer Reviews",
+    "outOf": "out of"
   }
 }

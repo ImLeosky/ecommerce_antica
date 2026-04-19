@@ -1,6 +1,8 @@
 "use client";
 import { useCartStore } from "@/lib/cartStore";
 import { useLocale } from "next-intl";
+import { getSettings } from "@/lib/cms";
+import { useState, useEffect } from "react";
 import styles from "./CartDrawer.module.css";
 import { useRouter } from "../../i18n/routing";
 
@@ -11,9 +13,18 @@ export const CartDrawer = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const [currency, setCurrency] = useState("COP");
   const { items, removeItem, getTotalPrice } = useCartStore();
   const locale = useLocale();
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      const curr = await getSettings("currency", "COP");
+      setCurrency(curr);
+    };
+    fetchCurrency();
+  }, []);
 
   if (!isOpen) return null;
 
@@ -50,7 +61,7 @@ export const CartDrawer = ({
                 <div className={styles.itemInfo}>
                   <h4 className="text-serif">{item.name[locale]}</h4>
                   <p className="text-sans">
-                    ${item.price} x {item.quantity}
+                    $ {item.price} {currency} x {item.quantity}
                   </p>
                 </div>
                 <button
@@ -69,7 +80,9 @@ export const CartDrawer = ({
           <div className={styles.footer}>
             <div className={styles.totalRow}>
               <span>Total:</span>
-              <span className="text-accent">${getTotalPrice()}</span>
+              <span className="text-accent">
+                $ {getTotalPrice()} {currency}
+              </span>
             </div>
             <button className="btn btn-primary" onClick={handleCheckout}>
               Pagar Ahora

@@ -10,6 +10,8 @@ type Product = {
   name: Record<string, string>;
   price: number;
   image_url: string | null;
+  available: boolean;
+  buyable: boolean;
 };
 
 async function getExperienceProducts() {
@@ -21,27 +23,30 @@ async function getExperienceProducts() {
       .from("categories")
       .select("*");
 
-    if (catError) {
-      console.error("Error fetching categories:", catError);
-      return [];
-    }
+    console.log("All categories:", allCats);
 
     // Find the category by name
-    const categoryName = locale === "es" ? "Experiencia" : "Experience";
+    const categoryName = locale === "es" ? "EXPERIENCIAS" : "EXPERIENCES";
     const category = allCats?.find(
       (cat) => cat.name && cat.name[locale] === categoryName,
     );
+
+    console.log("Category name searched:", categoryName);
+    console.log("Category found:", category);
 
     if (!category) {
       console.log("No category found with name:", categoryName);
       return [];
     }
 
-    // Get products for this category
+    // Get products for this category and only available ones
     const { data: products, error: prodError } = await supabase
       .from("products")
       .select("*")
-      .eq("category_id", category.id);
+      .eq("category_id", category.id)
+      .eq("available", true);
+
+    console.log("Products found:", products);
 
     if (prodError) {
       console.error("Error fetching products:", prodError);
@@ -68,9 +73,13 @@ export default async function RegalaPage() {
   return (
     <>
       <PageHero
-        title={t("title")}
-        subtitle={t("subtitle")}
-        backgroundImage={heroImage}
+        slides={[
+          {
+            image: heroImage,
+            title: t("title"),
+            subtitle: t("subtitle"),
+          },
+        ]}
       />
 
       {/* Gift Form Section */}

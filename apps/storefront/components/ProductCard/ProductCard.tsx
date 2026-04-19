@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useCartStore } from "@/lib/cartStore"; // Importamos el store
+import { getSettings } from "@/lib/cms"; // Importamos getSettings
+import { useState, useEffect } from "react";
 import styles from "./ProductCard.module.css";
 
 type Product = {
@@ -11,6 +13,8 @@ type Product = {
   price: number;
   image_url: string | null;
   description?: Record<string, string>;
+  available: boolean;
+  buyable: boolean;
 };
 
 type ProductCardProps = {
@@ -19,8 +23,17 @@ type ProductCardProps = {
 };
 
 const ProductCard = ({ product, locale }: ProductCardProps) => {
+  const [currency, setCurrency] = useState("COP");
   const t = useTranslations("GiftPage");
   const addItem = useCartStore((state) => state.addItem);
+
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      const curr = await getSettings("currency", "COP");
+      setCurrency(curr);
+    };
+    fetchCurrency();
+  }, []);
 
   // Función para quitar etiquetas HTML
   const stripHtml = (html: string) => {
@@ -55,7 +68,9 @@ const ProductCard = ({ product, locale }: ProductCardProps) => {
       </div>
 
       <h3 className={styles.name}>{product.name[locale]}</h3>
-      <p className={styles.price}>${product.price}</p>
+      <p className={styles.price}>
+        $ {product.price} {currency}
+      </p>
 
       {product.description && product.description[locale] && (
         <div className={styles.description}>
@@ -83,10 +98,16 @@ const ProductCard = ({ product, locale }: ProductCardProps) => {
           {t("viewDetails")}
         </Link>
 
-        {/* Botón de Añadir al Carrito */}
-        <button onClick={handleAddToCart} className="btn btn-primary">
-          {t("addToCart")}
-        </button>
+        {/* Botón de Añadir al Carrito - solo si es comprable */}
+        {product.buyable ? (
+          <button onClick={handleAddToCart} className="btn btn-primary">
+            {t("addToCart")}
+          </button>
+        ) : (
+          <span className="text-sm text-gray-500">
+            {t("notAvailableForPurchase")}
+          </span>
+        )}
       </div>
     </div>
   );

@@ -12,6 +12,8 @@ type Product = {
   image_url: string | null;
   category_id: number;
   description?: Record<string, string>;
+  available: boolean;
+  buyable: boolean;
 };
 
 type Category = {
@@ -40,8 +42,8 @@ async function getProductsAndCategories() {
         cat.name[locale] === (locale === "es" ? "EXPERIENCIAS" : "EXPERIENCES"),
     );
 
-    // Get products excluding experiences
-    let query = supabase.from("products").select("*");
+    // Get products excluding experiences and only buyable ones
+    let query = supabase.from("products").select("*").eq("buyable", true);
     if (experienceCategory) {
       query = query.neq("category_id", experienceCategory.id);
     }
@@ -78,9 +80,11 @@ export default async function ProductosPage() {
   return (
     <>
       <PageHero
-        title={t("title")}
-        subtitle={t("subtitle")}
-        backgroundImages={heroImages}
+        slides={heroImages.map((image) => ({
+          image,
+          title: t("title"),
+          subtitle: t("subtitle"),
+        }))}
       />
 
       {/* Products Section */}
