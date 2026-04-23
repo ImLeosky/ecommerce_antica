@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link } from "../../i18n/routing";
+
 import styles from "./MessagesCarousel.module.css";
 
 interface BrandMessage {
@@ -14,6 +15,7 @@ interface MessagesCarouselProps {
 }
 
 const MessagesCarousel: React.FC<MessagesCarouselProps> = ({ messages }) => {
+  console.log("MessagesCarousel component rendered with messages:", messages);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -36,10 +38,6 @@ const MessagesCarousel: React.FC<MessagesCarouselProps> = ({ messages }) => {
     setCurrentIndex((prev) => (prev + 1) % messages.length);
   };
 
-  if (!messages || messages.length === 0) {
-    return null;
-  }
-
   const currentMessage = messages[currentIndex]!;
 
   return (
@@ -57,8 +55,18 @@ const MessagesCarousel: React.FC<MessagesCarouselProps> = ({ messages }) => {
 
             <div className={styles.messageCard}>
               <div className={styles.messageContent}>
-                <h3 className={styles.messageTitle}>{currentMessage.title}</h3>
-                <p className={styles.messageText}>{currentMessage.message}</p>
+                <div
+                  className={styles.messageTitle}
+                  dangerouslySetInnerHTML={{
+                    __html: currentMessage.title,
+                  }}
+                />
+                <div
+                  className={styles.messageText}
+                  dangerouslySetInnerHTML={{
+                    __html: currentMessage.message,
+                  }}
+                />
               </div>
               <div className={styles.messageActions}>
                 <Link href="/nosotros">
@@ -82,9 +90,7 @@ const MessagesCarousel: React.FC<MessagesCarouselProps> = ({ messages }) => {
             {messages.map((_, index) => (
               <button
                 key={index}
-                className={`${styles.indicator} ${
-                  index === currentIndex ? styles.active : ""
-                }`}
+                className={`${styles.indicator} ${index === currentIndex ? styles.active : ""}`}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to message ${index + 1}`}
               />

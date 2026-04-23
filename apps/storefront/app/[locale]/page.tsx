@@ -15,16 +15,6 @@ export default async function Home(props: {
   // OBLIGATORIO: Esperar los params
   const { locale } = await props.params;
 
-  // @cms-group "Home Page" @cms-label "Imagen Sección Espacios"
-  const spacesImage = (await getCmsMedia(
-    "home_spaces_image",
-    "/media/DSC01979.jpg",
-  )) as string;
-  // @cms-group "Home Page" @cms-label "Imagen Sección Chef"
-  const chefImage = (await getCmsMedia(
-    "home_chef_image",
-    "/media/DSC01073.jpg",
-  )) as string;
   // @cms-group "Home Page" @cms-label "Fondo Sección de Reservas"
   const reservationBg = (await getCmsMedia(
     "home_reservation_bg",
@@ -36,13 +26,10 @@ export default async function Home(props: {
       <Hero />
       <AboutSection locale={locale} />
       <ScrollReveal direction="up" delay={200}>
-        <ChefSection imageSrc={chefImage} />
+        <ChefSection locale={locale} />
       </ScrollReveal>
       <ScrollReveal direction="up" delay={300}>
-        <SpacesSection imageSrc={spacesImage} />
-      </ScrollReveal>
-      <ScrollReveal direction="up" delay={400}>
-        <SpacesSection imageSrc={spacesImage} />
+        <SpacesSection locale={locale} />
       </ScrollReveal>
       <ScrollReveal direction="up" delay={500}>
         <CafeMenu />

@@ -11,32 +11,40 @@ const Footer = async ({ locale }: { locale: string }) => {
   )) as string;
 
   // @cms-group "Footer" @cms-label "Descripción del Footer"
+  console.log("Footer - Fetching description from CMS");
   const description = (await getCmsText(
     locale,
     "Footer.description",
     "Café de especialidad de tres generaciones, cultivado en las tierras del Huila, Colombia.",
   )) as string;
+  console.log("Footer - description result:", JSON.stringify(description));
 
   // @cms-group "Footer" @cms-label "Texto de Copyright"
+  console.log("Footer - Fetching copyrightText from CMS");
   const copyrightText = (await getCmsText(
     locale,
     "Footer.copyright",
     "© 2025 Antica M&M. Todos los derechos reservados.",
   )) as string;
+  console.log("Footer - copyrightText result:", JSON.stringify(copyrightText));
 
   // @cms-group "Footer" @cms-label "Enlace de Facebook"
+  console.log("Footer - Fetching facebookUrl from CMS");
   const facebookUrl = (await getCmsText(
     locale,
     "Footer.facebook",
     "https://www.facebook.com/AnticaPitalito",
   )) as string;
+  console.log("Footer - facebookUrl result:", JSON.stringify(facebookUrl));
 
   // @cms-group "Footer" @cms-label "Enlace de TikTok"
+  console.log("Footer - Fetching tiktokUrl from CMS");
   const tiktokUrl = (await getCmsText(
     locale,
     "Footer.tiktok",
     "https://www.tiktok.com/@antica_cafe",
   )) as string;
+  console.log("Footer - tiktokUrl result:", JSON.stringify(tiktokUrl));
 
   // @cms-group "Footer" @cms-label "Enlace de Instagram"
   const instagramUrl = (await getCmsText(
@@ -85,11 +93,13 @@ const Footer = async ({ locale }: { locale: string }) => {
   const mapsSrc = getMapsSrc(mapsEmbedRaw);
 
   // @cms-group "Footer" @cms-label "Dirección"
+  console.log("Footer - Fetching addressText from CMS");
   const addressText = (await getCmsText(
     locale,
     "Footer.address",
     "Pitalito, Huila - Colombia, Solarte",
   )) as string;
+  console.log("Footer - addressText result:", JSON.stringify(addressText));
 
   // @cms-group "Footer" @cms-label "Texto de Explorar - Inicio"
   const exploreHome = (await getCmsText(
@@ -151,29 +161,59 @@ const Footer = async ({ locale }: { locale: string }) => {
             )}
             <div
               className={styles.description}
-              dangerouslySetInnerHTML={{ __html: description }}
+              dangerouslySetInnerHTML={{
+                __html: description
+                  .replace(/^<p[^>]*>/, "")
+                  .replace(/<\/p>$/, ""),
+              }}
             />
           </div>
 
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>{exploreTitle}</h3>
+            <h3
+              className={styles.sectionTitle}
+              dangerouslySetInnerHTML={{ __html: exploreTitle }}
+            />
             <ul className={styles.links}>
               <li>
-                <Link href={`/${locale}`}>{exploreHome}</Link>
+                <Link
+                  href={`/${locale}`}
+                  dangerouslySetInnerHTML={{
+                    __html: exploreHome,
+                  }}
+                />
               </li>
               <li>
-                <Link href={`/${locale}/nosotros`}>{exploreAbout}</Link>
+                <Link
+                  href={`/${locale}/nosotros`}
+                  dangerouslySetInnerHTML={{
+                    __html: exploreAbout,
+                  }}
+                />
               </li>
               <li>
-                <Link href={`/${locale}/experiencias`}>
-                  {exploreExperiences}
-                </Link>
+                <Link
+                  href={`/${locale}/experiencias`}
+                  dangerouslySetInnerHTML={{
+                    __html: exploreExperiences,
+                  }}
+                />
               </li>
               <li>
-                <Link href={`/${locale}/espacios`}>{exploreSpaces}</Link>
+                <Link
+                  href={`/${locale}/espacios`}
+                  dangerouslySetInnerHTML={{
+                    __html: exploreSpaces,
+                  }}
+                />
               </li>
               <li>
-                <Link href={`/${locale}/regala`}>{exploreGift}</Link>
+                <Link
+                  href={`/${locale}/regala`}
+                  dangerouslySetInnerHTML={{
+                    __html: exploreGift,
+                  }}
+                />
               </li>
             </ul>
           </div>
@@ -274,12 +314,26 @@ const Footer = async ({ locale }: { locale: string }) => {
                 title="Ubicación Antica M&M"
               />
             </div>
-            <p className={styles.address}>{addressText}</p>
+            <p
+              className={styles.address}
+              dangerouslySetInnerHTML={{
+                __html: addressText
+                  .replace(/^<p[^>]*>/, "")
+                  .replace(/<\/p>$/, ""),
+              }}
+            />
           </div>
         </div>
 
         <div className={styles.bottom}>
-          <p className={styles.copyright}>{copyrightText}</p>
+          <p
+            className={styles.copyright}
+            dangerouslySetInnerHTML={{
+              __html: copyrightText
+                .replace(/^<p[^>]*>/, "")
+                .replace(/<\/p>$/, ""),
+            }}
+          />
         </div>
       </div>
     </footer>

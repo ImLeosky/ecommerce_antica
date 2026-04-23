@@ -1,7 +1,8 @@
-﻿import React from "react";
+import React from "react";
 import { ScrollReveal } from "../ScrollReveal";
 import { getCmsMedia, getCmsText } from "@/lib/cms";
 import MessagesCarousel from "../MessagesCarousel/MessagesCarousel";
+
 import styles from "./AboutSection.module.css";
 
 const AboutSection = async ({ locale }: { locale: string }) => {
@@ -12,17 +13,24 @@ const AboutSection = async ({ locale }: { locale: string }) => {
   )) as string;
 
   // @cms-group "About Section" @cms-label "Título Principal"
+  console.log("AboutSection - Fetching mainTitle from CMS");
   const mainTitle = await getCmsText(
     locale,
     "About.main_title",
     "El orgullo del sur de Colombia",
   );
+  console.log("AboutSection - mainTitle result:", JSON.stringify(mainTitle));
 
   // @cms-group "About Section" @cms-label "Subtítulo"
+  console.log("AboutSection - Fetching boxSubtitle from CMS");
   const boxSubtitle = await getCmsText(
     locale,
     "About.box_subtitle",
     "Antica M&M, una experiencia que trasciende el tiempo",
+  );
+  console.log(
+    "AboutSection - boxSubtitle result:",
+    JSON.stringify(boxSubtitle),
   );
 
   // Fetch brand messages from CMS
@@ -90,15 +98,19 @@ const AboutSection = async ({ locale }: { locale: string }) => {
 
             <div className={styles.heroContent}>
               <ScrollReveal direction="right" delay={300}>
-                <h2 className={`${styles.mainTitle} text-serif`}>
-                  {mainTitle}
-                </h2>
+                <h2
+                  className={`${styles.mainTitle} text-serif`}
+                  dangerouslySetInnerHTML={{ __html: mainTitle }}
+                />
               </ScrollReveal>
               <ScrollReveal direction="up" delay={500}>
                 <div className={styles.titleDivider}></div>
               </ScrollReveal>
               <ScrollReveal direction="left" delay={700}>
-                <p className={styles.heroSubtitle}>{boxSubtitle}</p>
+                <p
+                  className={styles.heroSubtitle}
+                  dangerouslySetInnerHTML={{ __html: boxSubtitle }}
+                />
               </ScrollReveal>
             </div>
           </div>

@@ -144,6 +144,9 @@ export const baseDictionaryEs = {
   Spaces: {
     heroTitle: "Nuestros Espacios",
     heroSubtitle: "Ambientes diseñados para crear experiencias memorables",
+    title: "Nuestros Espacios",
+    description: "Descubre los ambientes únicos que hacen de Antica un lugar especial para disfrutar de momentos inolvidables.",
+    button: "Ver Todos los Espacios",
     space1: {
       title: "Sala Principal",
       description:
@@ -178,6 +181,11 @@ export const baseDictionaryEs = {
   General: {
     announcement_schedule:
       "Horarios de atención: 9:30 am a 9 pm. Lunes cerrado.",
+  },
+  Chef: {
+    title: "Nuestro Chef",
+    description: "Conoce al maestro detrás de nuestra cocina especializada, dedicada a crear experiencias culinarias únicas.",
+    button: "Conoce Más",
   },
 };
 
@@ -322,6 +330,9 @@ export const baseDictionaryEn = {
   Spaces: {
     heroTitle: "Our Spaces",
     heroSubtitle: "Environments designed to create memorable experiences",
+    title: "Our Spaces",
+    description: "Discover the unique environments that make Antica a special place to enjoy unforgettable moments.",
+    button: "See All Spaces",
     space1: {
       title: "Main Hall",
       description:
@@ -356,5 +367,10 @@ export const baseDictionaryEn = {
   General: {
     announcement_schedule:
       "Business hours: 9:30 am to 9 pm. Closed on Mondays.",
+  },
+  Chef: {
+    title: "Our Chef",
+    description: "Meet the master behind our specialized kitchen, dedicated to creating unique culinary experiences.",
+    button: "Learn More",
   },
 };

@@ -46,13 +46,52 @@ export async function getCmsText(
       val = val?.[p];
     }
     if (typeof val === "string" && val.trim() !== "") {
-      return val;
+      return processDbText(val);
     }
     return fallbackData;
   } catch (e) {
     console.error("Error fetching CMS text", e);
   }
   return fallbackData;
+}
+
+export function processDbText(html: string): string {
+  if (typeof html !== "string") return html;
+
+  // 1. Decodificar entidades HTML comunes (incluso si vienen doblemente escapadas)
+  let text = html;
+  let prev = "";
+  let iterations = 0;
+  
+  while (text !== prev && iterations < 5) {
+    prev = text;
+    text = text
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, " ");
+      
+    // Decodificar entidades numéricas como &#60; (<) o hex &#x3C; (<)
+    text = text.replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec));
+    text = text.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+    
+    iterations++;
+  }
+
+  // 2. Reemplazar saltos de línea y cierres de párrafo por \n
+  text = text.replace(/<br\s*\/?>/gi, "\n");
+  text = text.replace(/<\/p>/g, "\n");
+  
+  // 3. Eliminar cualquier etiqueta HTML
+  text = text.replace(/<[^>]+>/g, "");
+  
+  // 4. Eliminar múltiples saltos de línea consecutivos
+  text = text.replace(/\n\s*\n/g, "\n").trim();
+  
+  // 5. Remover espacios al principio y final de líneas
+  return text.replace(/^\s+|\s+$/g, "").replace(/\n\s*/g, "\n  ");
 }
 
 export async function getSettings(key: string, fallback: any): Promise<any> {
