@@ -50,6 +50,20 @@
           "type": "gallery",
           "source": "auto",
           "file": "app/[locale]/page.tsx"
+        },
+        {
+          "key": "home_chef_image",
+          "label": "Imagen Sección Chef",
+          "source": "auto",
+          "file": "components/ChefSection/ChefSection.tsx",
+          "type": "single"
+        },
+        {
+          "key": "home_spaces_image",
+          "label": "Imagen Sección Espacios",
+          "source": "auto",
+          "file": "components/SpacesSection/SpacesSection.tsx",
+          "type": "single"
         }
       ]
     },
@@ -186,6 +200,47 @@
           "source": "auto",
           "file": "app/[locale]/espacios/page.tsx",
           "type": "gallery"
+        }
+      ]
+    },
+    {
+      "group": "Página Nosotros (Historia Familiar)",
+      "source": "auto",
+      "items": [
+        {
+          "key": "nosotros_don_luis_image",
+          "label": "Retrato de Don Luis Ortega",
+          "source": "auto",
+          "file": "app/[locale]/nosotros/page.tsx",
+          "type": "single"
+        },
+        {
+          "key": "nosotros_daughter_image",
+          "label": "La Visión de Antica",
+          "source": "auto",
+          "file": "app/[locale]/nosotros/page.tsx",
+          "type": "single"
+        },
+        {
+          "key": "nosotros_victor_image",
+          "label": "Retrato Crezia Exportación",
+          "source": "auto",
+          "file": "app/[locale]/nosotros/page.tsx",
+          "type": "single"
+        },
+        {
+          "key": "nosotros_union_image",
+          "label": "Imagen Unión (Hermanos)",
+          "source": "auto",
+          "file": "app/[locale]/nosotros/page.tsx",
+          "type": "single"
+        },
+        {
+          "key": "nosotros_family_image",
+          "label": "Retrato Familiar (Pantalla Completa)",
+          "source": "auto",
+          "file": "app/[locale]/nosotros/page.tsx",
+          "type": "single"
         }
       ]
     }
@@ -592,7 +647,55 @@
           "file": "components/Hero/Hero.tsx"
         }
       ]
+    },
+    {
+      "group": "Chef",
+      "source": "auto",
+      "items": [
+        {
+          "key": "Chef.title",
+          "label": "Título",
+          "source": "auto",
+          "file": "components/ChefSection/ChefSection.tsx"
+        },
+        {
+          "key": "Chef.description",
+          "label": "Descripción",
+          "source": "auto",
+          "file": "components/ChefSection/ChefSection.tsx"
+        },
+        {
+          "key": "Chef.button",
+          "label": "Texto Botón",
+          "source": "auto",
+          "file": "components/ChefSection/ChefSection.tsx"
+        }
+      ]
+    },
+    {
+      "group": "Spaces",
+      "source": "auto",
+      "items": [
+        {
+          "key": "Spaces.title",
+          "label": "Título",
+          "source": "auto",
+          "file": "components/SpacesSection/SpacesSection.tsx"
+        },
+        {
+          "key": "Spaces.description",
+          "label": "Descripción",
+          "source": "auto",
+          "file": "components/SpacesSection/SpacesSection.tsx"
+        },
+        {
+          "key": "Spaces.button",
+          "label": "Texto Botón",
+          "source": "auto",
+          "file": "components/SpacesSection/SpacesSection.tsx"
+        }
+      ]
     }
   ],
-  "_lastSync": "2026-04-22T14:49:09.435Z"
+  "_lastSync": "2026-04-23T14:30:02.799Z"
 }

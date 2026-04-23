@@ -64,11 +64,23 @@ function extractMediaSlots(content, relPath) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Buscar llamada a getCmsMedia('key', ...)
-    const mediaMatch = line.match(/getCmsMedia\(\s*['"`]([^'"`]+)['"`]/);
+    // Buscar llamada a getCmsMedia(
+    const mediaMatch = line.match(/getCmsMedia\s*\(/);
     if (!mediaMatch) continue;
 
-    const key = mediaMatch[1];
+    // Buscar la key en esta línea o las siguientes
+    let key = null;
+    let keyLine = i;
+    for (let j = 0; j < 5 && keyLine + j < lines.length; j++) {
+      const checkLine = lines[keyLine + j];
+      const keyMatch = checkLine.match(/['"`]([^'"`]+)['"`]/);
+      if (keyMatch) {
+        key = keyMatch[1];
+        break;
+      }
+    }
+    if (!key) continue;
+
     // Buscar anotación en la línea anterior (o hasta 3 líneas atrás)
     let annotation = { group: null, label: null, type: null };
     for (let back = 1; back <= 3; back++) {
