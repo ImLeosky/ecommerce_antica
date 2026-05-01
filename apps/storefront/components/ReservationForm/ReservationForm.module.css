@@ -199,6 +199,18 @@
   color: var(--text-primary);
   padding: 1rem 2rem;
   flex: 1;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.backBtn:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
 .nextBtn {

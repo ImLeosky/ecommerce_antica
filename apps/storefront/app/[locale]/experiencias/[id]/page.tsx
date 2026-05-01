@@ -74,33 +74,31 @@ export default function ProductDetailPage({ params }: PageProps) {
 
       const rect = description.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const scrollY = window.scrollY;
+      
+      // Calculamos cuánto ha avanzado el scroll dentro del área de la descripción
+      // Cuando el top de la descripción llega a la parte superior (o cerca)
+      const start = rect.top;
+      const height = rect.height;
+      const progress = Math.max(0, Math.min(1, -start / (height - 300))); // 300px de margen para el final
 
-      // Check if description is in view
       if (rect.top < windowHeight && rect.bottom > 0) {
-        // Calculate how much of the description is visible
-        const visibleTop = Math.max(rect.top, 0);
-        const visibleBottom = Math.min(rect.bottom, windowHeight);
-        const visibleHeight = visibleBottom - visibleTop;
-        const descriptionHeight = rect.height;
-
-        // Progress from 0 to 1 as more of the description becomes visible
-        const scrollProgress = Math.max(
-          0,
-          Math.min(1, visibleHeight / descriptionHeight),
-        );
-
-        // Divide into parts based on number of images
         const imagesCount = product.images.length;
-        const index = Math.floor(scrollProgress * imagesCount);
+        const index = Math.floor(progress * imagesCount);
         setCurrentImageIndex(Math.max(0, Math.min(imagesCount - 1, index)));
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial call
+    
+    // Pequeño retraso para asegurar que el DOM esté pintado tras la navegación
+    const timeoutId = setTimeout(() => {
+      handleScroll();
+    }, 100);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeoutId);
+    };
   }, [product, isMobile]);
 
   // Auto-slide images
@@ -125,7 +123,7 @@ export default function ProductDetailPage({ params }: PageProps) {
   const currency = "COP"; // Default, or fetch
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} key={product.id}>
       <div className={styles.container}>
         <div className={styles.grid}>
           {/* Columna Imagen */}
@@ -154,16 +152,15 @@ export default function ProductDetailPage({ params }: PageProps) {
                   "Sin descripción disponible.",
               }}
             />
+
           </div>
         </div>
 
-        {/* Zona de Acción (Fuera del Grid para evitar solapamiento sticky) */}
+        {/* Zona de Acción - Ahora FUERA del grid para que el sticky termine antes */}
         {product.buyable ? (
-          <div className={styles.actionsWrapper}>
-            <div className={styles.actions}>
-              <AddToCartButton product={product} />
-              <BuyNowButton product={product} />
-            </div>
+          <div className={styles.innerActions}>
+            <AddToCartButton product={product} />
+            <BuyNowButton product={product} />
           </div>
         ) : (
           <div className={styles.notAvailable}>

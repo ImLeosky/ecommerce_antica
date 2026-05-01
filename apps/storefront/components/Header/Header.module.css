@@ -9,6 +9,13 @@
   background-color: transparent;
 }
 
+@media (max-width: 768px) {
+  .header {
+    background-color: rgba(18, 16, 14, 0.8); /* Fondo semi-sólido permanente en móvil */
+    backdrop-filter: blur(10px);
+  }
+}
+
 .scrolled {
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
@@ -489,6 +496,11 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    background-color: var(--bg-dark) !important;
+    backdrop-filter: blur(10px);
+  }
+
   .container {
     padding: 0 1rem;
   }

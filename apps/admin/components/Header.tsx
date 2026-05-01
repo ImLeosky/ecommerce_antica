@@ -3,8 +3,10 @@ import { Menu } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { useLayout } from './LayoutContext'
 
-export default function Header() {
+export default function Header({ userRole = 'operator' }: { userRole?: string }) {
   const { toggleSidebar } = useLayout()
+
+  const displayRole = userRole === 'admin' ? 'Administrador' : 'Operador'
 
   return (
     <header className="sticky top-0 z-40 flex h-20 items-center justify-between px-6 md:px-8 backdrop-blur-md border-b border-(--card-border)" style={{ backgroundColor: 'var(--header-bg)' }}>
@@ -25,11 +27,11 @@ export default function Header() {
         <ThemeToggle />
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-bold text-(--foreground)">Administrador</p>
+            <p className="text-xs font-bold text-(--foreground)">{displayRole}</p>
             <p className="text-[10px] text-accent-gold font-bold uppercase tracking-wider">Online</p>
           </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-gold text-white font-bold shadow-lg shadow-accent-gold/20">
-            A
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-gold text-(--avatar-text) font-black shadow-lg shadow-accent-gold/20 transition-colors">
+            {displayRole.charAt(0)}
           </div>
         </div>
       </div>

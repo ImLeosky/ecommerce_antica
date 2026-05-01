@@ -12,7 +12,8 @@ import {
   Settings,
   LogOut,
   Type,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Users
 } from 'lucide-react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useLayout } from './LayoutContext'
@@ -38,13 +39,20 @@ const menuGroups = [
   {
     label: 'Admin',
     items: [
+      { label: 'Users', href: '/users', icon: Users },
       { label: 'Settings', href: '/settings', icon: Settings },
     ]
   }
 ]
 
 
-export default function Sidebar() {
+interface SidebarProps {
+  userRole?: string
+  userId?: string
+}
+
+export default function Sidebar({ userRole = 'operator', userId }: SidebarProps) {
+
   const pathname = usePathname()
   const { locale } = useParams()
   const { sidebarOpen, setSidebarOpen } = useLayout()
@@ -81,38 +89,49 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 py-8 space-y-8 scrollbar-thin scrollbar-thumb-white/5">
-          {menuGroups.map((group) => (
-            <div key={group.label} className="space-y-3">
-              <h2 className="px-2 text-[10px] font-bold uppercase tracking-[3px] text-gray-600">
-                {group.label}
-              </h2>
-              <div className="space-y-1">
-                {group.items.map((item) => {
-                  const fullHref = `/${locale}${item.href === '/' ? '' : item.href}`
-                  const isActive = pathname === fullHref || (item.href === '/' && (pathname === `/${locale}` || pathname === `/${locale}/`))
-                  const Icon = item.icon
-                  return (
-                    <Link
-                      key={item.href}
-                      href={fullHref}
-                      className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-300 ${
-                        isActive
-                          ? 'bg-[#cba87c] text-white shadow-lg shadow-[#cba87c]/20'
-                          : 'text-gray-400 hover:bg-white/5 hover:text-[#cba87c]'
-                      }`}
-                    >
-                      <Icon className={`h-4 w-4 transition-colors ${isActive ? 'text-white' : 'group-hover:text-[#cba87c]'}`} />
-                      <span className="tracking-wide">{item.label}</span>
-                      {isActive && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />}
-                    </Link>
-                  )
-                })}
 
+        <nav className="flex-1 overflow-y-auto px-4 py-8 space-y-8 scrollbar-thin scrollbar-thumb-white/5">
+          {menuGroups.map((group) => {
+            // Si es admin, mostrar todo. Si es operador, filtrar.
+            const filteredItems = userRole === 'admin' 
+              ? group.items 
+              : group.items.filter(item => {
+                  const restrictedPaths = ['/products', '/categories', '/cms', '/settings', '/users']
+                  return !restrictedPaths.some(path => item.href === path || item.href.startsWith(path + '/'))
+                })
+
+            if (filteredItems.length === 0) return null
+
+            return (
+              <div key={group.label} className="space-y-3">
+                <h2 className="px-2 text-[10px] font-bold uppercase tracking-[3px] text-gray-600">
+                  {group.label}
+                </h2>
+                <div className="space-y-1">
+                  {filteredItems.map((item) => {
+                    const fullHref = `/${locale}${item.href === '/' ? '' : item.href}`
+                    const isActive = pathname === fullHref || (item.href === '/' && (pathname === `/${locale}` || pathname === `/${locale}/`))
+                    const Icon = item.icon
+                    return (
+                      <Link
+                        key={item.href}
+                        href={fullHref}
+                        className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-300 ${
+                          isActive
+                            ? 'bg-[#cba87c] text-white shadow-lg shadow-[#cba87c]/20'
+                            : 'text-gray-400 hover:bg-white/5 hover:text-[#cba87c]'
+                        }`}
+                      >
+                        <Icon className={`h-4 w-4 transition-colors ${isActive ? 'text-white' : 'group-hover:text-[#cba87c]'}`} />
+                        <span className="tracking-wide">{item.label}</span>
+                        {isActive && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />}
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </nav>
 
         {/* User / Logout */}

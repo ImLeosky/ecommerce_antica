@@ -65,7 +65,7 @@ export default async function NosotrosPage({ params }: PageProps) {
           <div className={styles.container}>
             <ScrollReveal direction="right" delay={400}>
               <h2
-                className="text-serif text-5xl"
+                className={styles.historyTitle}
                 dangerouslySetInnerHTML={{ __html: t.raw("historyTitle") }}
               />
             </ScrollReveal>

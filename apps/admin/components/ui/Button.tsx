@@ -9,9 +9,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 disabled:opacity-50 disabled:pointer-events-none ring-offset-background"
     
     const variants = {
-      default: "bg-indigo-600 text-white hover:bg-indigo-500 shadow-sm",
-      outline: "border border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800 dark:text-gray-100",
-      ghost: "hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50 text-gray-700 dark:text-gray-300",
+      default: "bg-(--accent-gold) text-white hover:bg-(--accent-gold-hover) shadow-sm",
+      outline: "border border-(--card-border) hover:bg-(--background) dark:border-gray-700 dark:hover:bg-gray-800 text-(--foreground)",
+      ghost: "hover:bg-(--background) hover:text-(--foreground) text-(--foreground)/70",
       danger: "bg-red-600 text-white hover:bg-red-500 shadow-sm"
     }
 

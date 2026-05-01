@@ -57,6 +57,31 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Role based access control
+  if (user && !isApiRoute && !isStaticFile) {
+    // Intentar obtener el rol del usuario
+    const { data: roleData } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .single()
+
+    const role = roleData?.role || 'operator' // Por defecto operador si no tiene rol asignado
+
+    if (role === 'operator') {
+      const restrictedPaths = ['/cms', '/products', '/settings', '/categories']
+      // Obtener el path sin el prefijo de idioma
+      const pathWithoutLocale = pathname.replace(/^\/(es|en)/, '')
+      
+      // Si el path sin locale es vacío (root), permitir. Si empieza con una ruta restringida, bloquear.
+      if (restrictedPaths.some(path => pathWithoutLocale === path || pathWithoutLocale.startsWith(path + '/'))) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/es' // Redirigir al dashboard
+        return NextResponse.redirect(url)
+      }
+    }
+  }
+
   // Not logged in users should be redirected to login page unless it's a login page
   if (!user && !isLoginPage && !isApiRoute) {
     const url = request.nextUrl.clone()

@@ -27,3 +27,16 @@ export async function createClient() {
     }
   )
 }
+
+export async function getUserRole(supabase: any) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const { data: roleData } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user.id)
+    .single()
+
+  return roleData?.role || 'no-role-found'
+}

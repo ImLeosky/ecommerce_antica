@@ -12,6 +12,7 @@
     --accent-gold: #cba87c;
     --accent-gold-hover: #b9976b;
     --font-serif: "Cormorant Garamond", serif;
+    --avatar-text: #1a1512;
   }
 
   .dark {
@@ -23,6 +24,7 @@
     --border-color: #211e1b;
     --accent-gold: #cba87c;
     --accent-gold-hover: #e0bc8d;
+    --avatar-text: #ffffff;
   }
 
 

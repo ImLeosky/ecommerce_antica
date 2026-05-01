@@ -2,6 +2,7 @@
     background-color: var(--bg-primary);
     min-height: 100vh;
     color: var(--text-primary);
+    overflow-x: hidden; /* Evita el scroll horizontal de las animaciones */
 }
 
 .nosotrosHero {
@@ -76,6 +77,12 @@
     margin: 0 auto;
 }
 
+.historyTitle {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+}
+
 .divider {
     width: 60px;
     height: 2px;
@@ -91,32 +98,74 @@
 }
 
 @media (max-width: 768px) {
-    .heroContent h1 {
-        font-size: 3rem;
+    .nosotrosHero {
+        --hero-title-size-mobile: 2.8rem;
     }
 
     .introHistory {
-        padding: 3rem 1rem;
+        padding: 4rem 1.5rem;
+    }
+
+    .historyTitle {
+        font-size: 1.8rem;
+        line-height: 1.3;
+        margin-bottom: 2.5rem;
+        font-family: var(--font-serif);
+        letter-spacing: -0.5px;
     }
 
     .historyBody {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
+        line-height: 2; /* Máximo aire entre líneas para evitar que se vea apretado */
+        letter-spacing: 0.3px;
+        padding: 0 1.5rem;
+        color: var(--text-secondary);
+        opacity: 0.9;
+    }
+
+    .blockContent {
+        text-align: center;
+    }
+
+    .blockContent h3 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
     }
 
     .unionSection {
-        padding: 3rem 0;
+        padding: 5rem 1.5rem;
     }
 
-    .familyText h2 {
-        font-size: 2.5rem;
+    .unionText h2 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .unionText p {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        padding: 0 1rem;
     }
 
     .familySection {
-        height: 70vh;
+        height: 80vh;
+    }
+
+    .familyText h2 {
+        font-size: 2.6rem;
+    }
+
+    .familyText p {
+        font-size: 1rem;
+    }
+
+    .familyOverlay {
+        padding-bottom: 4rem;
+        background: linear-gradient(to top, rgba(18, 16, 14, 0.95) 20%, transparent 80%);
     }
 
     .inaugurationSection {
-        padding: 4rem 1rem;
+        padding: 5rem 1.5rem;
     }
 
     .inaugurationParagraph {
@@ -125,12 +174,23 @@
     }
 
     .ctaSection {
-        padding: 4rem 1rem;
+        padding: 5rem 1.5rem;
+    }
+
+    .ctaSection h3 {
+        font-size: 2.2rem;
     }
 
     .ctaButtons {
         flex-direction: column;
-        gap: 1rem;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        gap: 1.2rem;
+    }
+
+    .ctaButtons :global(.btn) {
+        width: 100%;
     }
 }
 
