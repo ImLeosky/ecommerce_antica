@@ -32,6 +32,7 @@ export default async function LocaleLayout(props: {
     <html
       lang={locale}
       className={`${cormorantGaramond.variable} ${montserrat.variable} ${abrilFatface.variable}`}
+      data-theme="dark"
       suppressHydrationWarning
     >
       <head>

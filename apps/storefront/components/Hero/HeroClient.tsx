@@ -103,7 +103,7 @@ export function HeroClient({ slides }: HeroClientProps) {
             />
             <a
               href={slide.buttonLink || "/es/nosotros"}
-              className={`${styles.btnPrimary} ${styles.pointerAuto}`}
+              className={`${styles.btnPrimary} ${index === currentIndex ? styles.pointerAuto : ""}`}
             >
               {slide.buttonText}
             </a>

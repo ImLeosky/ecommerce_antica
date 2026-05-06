@@ -192,39 +192,36 @@ const Header = ({ logoUrl }: HeaderProps) => {
 
             <div className={styles.mobileNavSeparator}></div>
 
-            <button
-              onClick={() => {
-                setIsCartOpen(true);
-                setIsMenuOpen(false);
-              }}
-              className={styles.mobileNavBtn}
-              aria-label={`${t("cart")} (${mounted ? totalItems : 0} items)`}
-            >
-              <Image
-                src="/cart-white.svg"
-                alt="Cart"
-                width={20}
-                height={20}
-              />
-              {mounted && totalItems > 0 && (
-                <span className={styles.cartBadge}>{totalItems}</span>
-              )}
-            </button>
+            <div className={styles.mobileActionsRow}>
+              <button
+                onClick={() => {
+                  setIsCartOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className={styles.mobileNavBtn}
+                aria-label={`${t("cart")} (${mounted ? totalItems : 0} items)`}
+              >
+                <Image
+                  src="/cart-white.svg"
+                  alt="Cart"
+                  width={20}
+                  height={20}
+                />
+                {mounted && totalItems > 0 && (
+                  <span className={styles.cartBadge}>{totalItems}</span>
+                )}
+              </button>
 
-            <button
-              onClick={() => {
-                toggleLanguage();
-                setIsMenuOpen(false);
-              }}
-              className={styles.mobileNavBtn}
-            >
-              {locale === "es" ? "EN" : "ES"}
-            </button>
+              <button
+                onClick={() => {
+                  toggleLanguage();
+                  setIsMenuOpen(false);
+                }}
+                className={styles.mobileNavBtn}
+              >
+                {locale === "es" ? "EN" : "ES"}
+              </button>
 
-            <div className={styles.mobileNavTheme}>
-              <span className={styles.themeLabel}>
-                {mounted && (theme === "light" ? t("darkMode") : t("lightMode"))}
-              </span>
               <ThemeToggle />
             </div>
           </div>
