@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useCartStore } from "@/lib/cartStore"; // Importamos el store
-import { getSettings } from "@/lib/cms"; // Importamos getSettings
+import { useCartStore } from "@/lib/cartStore";
+import { getSettings } from "@/lib/cms";
 import { useState, useEffect } from "react";
+import { toast } from "@repo/ui/toast";
 import styles from "./ProductCard.module.css";
 
 type Product = {
@@ -48,8 +49,7 @@ const ProductCard = ({ product, locale }: ProductCardProps) => {
     // Añadimos al carrito
     addItem(product);
 
-    // Opcional: Podrías disparar una alerta o abrir el drawer aquí
-    alert(`${product.name[locale]} añadido al carrito`);
+    toast.success(`${product.name[locale]} añadido al carrito`);
   };
 
   return (

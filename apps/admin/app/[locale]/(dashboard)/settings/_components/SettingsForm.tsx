@@ -80,8 +80,8 @@ export function SettingsForm({ configs }: { configs: any[] }) {
                       <FlaskConical size={24} />
                    </div>
                    <div>
-                      <h3 className="font-bold text-(--foreground) text-lg">Modo Test de Compras</h3>
-                      <p className="text-[10px] text-accent-gold/40 font-bold uppercase tracking-widest mt-1">Simular pasarela de pagos</p>
+                       <h3 className="font-bold text-(--foreground) text-lg">Modo Test de Compras</h3>
+                       <p className="text-[10px] text-accent-gold/40 font-bold uppercase tracking-widest mt-1">Usa claves de prueba de Bold en lugar de producción</p>
                    </div>
                 </div>
                 <button 

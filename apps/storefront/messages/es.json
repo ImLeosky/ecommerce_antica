@@ -181,9 +181,15 @@
     "documentId": "Número de Documento (NIT/Cédula)",
     "address": "Dirección de envío/facturación",
     "email": "Correo Electrónico",
+    "phone": "Teléfono",
     "payButton": "Pagar ahora",
     "orderSummary": "Resumen del Pedido",
-    "total": "Total a pagar"
+    "total": "Total a pagar",
+    "redirectingToBold": "Redirigiendo a la pasarela de pago segura Bold...",
+    "paymentPending": "Pago pendiente",
+    "paymentPaid": "Pagado",
+    "paymentRejected": "Rechazado",
+    "paymentExpired": "Expirado"
   },
   "ExperienciasPage": {
     "title": "Experiencias",

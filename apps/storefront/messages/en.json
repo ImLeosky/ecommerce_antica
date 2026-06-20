@@ -181,9 +181,15 @@
     "documentId": "Document Number (NIT/Cédula)",
     "address": "Shipping/Billing Address",
     "email": "Email",
+    "phone": "Phone",
     "payButton": "Pay now",
     "orderSummary": "Order Summary",
-    "total": "Total to pay"
+    "total": "Total to pay",
+    "redirectingToBold": "Redirecting to Bold secure payment gateway...",
+    "paymentPending": "Payment pending",
+    "paymentPaid": "Paid",
+    "paymentRejected": "Rejected",
+    "paymentExpired": "Expired"
   },
   "ExperienciasPage": {
     "title": "Experiences",

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCartStore } from "@/lib/cartStore";
 import { useTranslations, useLocale } from "next-intl";
 import { getSettings } from "@/lib/cms";
@@ -13,21 +13,22 @@ interface CheckoutUIProps {
 
 export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
   const [currency, setCurrency] = useState("COP");
-  const { items, getTotalPrice, clearCart } = useCartStore();
+  const { items, getTotalPrice } = useCartStore();
   const t = useTranslations("Checkout");
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [testMode, setTestMode] = useState(false);
-  const [orderEmail, setOrderEmail] = useState("");
+  const [boldConfig, setBoldConfig] = useState<any>(null);
+  const boldCheckoutRef = useRef<any>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [boldLibReady, setBoldLibReady] = useState(false);
 
   useEffect(() => {
     const fetchConfigs = async () => {
       try {
         const curr = await getSettings("currency", "COP");
         setCurrency(curr);
-        
         const testConfig = await getSettings("test_mode_enabled", { enabled: false });
         setTestMode(!!testConfig.enabled);
       } catch (e) {
@@ -35,114 +36,136 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
       }
     };
     fetchConfigs();
+
+    const initBoldCheckout = () => {
+      if (document.querySelector('script[src="https://checkout.bold.co/library/boldPaymentButton.js"]')) {
+        setBoldLibReady(true);
+        return;
+      }
+      const js = document.createElement("script");
+      js.onload = () => setBoldLibReady(true);
+      js.onerror = () => console.error("Bold checkout library failed to load");
+      js.src = "https://checkout.bold.co/library/boldPaymentButton.js";
+      document.head.appendChild(js);
+    };
+
+    initBoldCheckout();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [submitted, setSubmitted] = useState(false);
+
+  const handlePay = async () => {
+    if (submitted) return;
+    const form = formRef.current;
+    if (!form) return;
+
+    setSubmitted(true);
     setLoading(true);
     setIsRedirecting(true);
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form);
     const email = formData.get("email") as string;
-    setOrderEmail(email);
 
     const billingData = {
       name: formData.get("name") as string,
       email: email,
+      phone: formData.get("phone") as string || "",
       docType: formData.get("docType") as string,
       docId: formData.get("docId") as string,
       address: formData.get("address") as string,
     };
 
-    if (testMode) {
-      toast.info("Modo Test: Conectando con la plataforma de pago...");
-      
-      try {
-        const { error } = await supabase
-          .from('orders')
-          .insert({
-            customer_name: billingData.name,
-            customer_email: billingData.email,
-            customer_address: billingData.address,
-            customer_document_type: billingData.docType,
-            customer_document_id: billingData.docId,
-            total_amount: getTotalPrice(),
-            items: items.map(item => ({
-              id: item.id,
-              name: item.name,
-              price: item.price,
-              quantity: item.quantity,
-              image_url: item.image_url
-            })),
-            status: 'pending'
-          });
+    try {
+      const cartItems = items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image_url: item.image_url
+      }));
 
-        if (error) {
-          console.error("Supabase Error:", error);
-          throw error;
-        }
+      const { data: order, error: insertError } = await supabase
+        .from('orders')
+        .insert({
+          customer_name: billingData.name,
+          customer_email: billingData.email,
+          customer_phone: billingData.phone || null,
+          customer_address: billingData.address,
+          customer_document_type: billingData.docType,
+          customer_document_id: billingData.docId,
+          total_amount: getTotalPrice(),
+          items: cartItems,
+          status: 'pending'
+        })
+        .select('id')
+        .single();
 
-        await new Promise(resolve => setTimeout(resolve, 2500));
-        
-        setIsSuccess(true);
-        setIsRedirecting(false);
-        setLoading(false);
-        clearCart();
-        
-        toast.success("¡Pago procesado con éxito!");
-      } catch (error: any) {
-        console.error("Error creating test order:", error);
-        toast.error("Error al procesar el pedido: " + (error.message || "Error desconocido"));
-        setIsRedirecting(false);
-        setLoading(false);
+      if (insertError) {
+        console.error("Supabase insert error:", insertError);
+        throw new Error(insertError.message);
       }
-    } else {
-      // Flujo Normal: Redirección simulada
-      toast.loading("Conectando con la pasarela de pagos segura...");
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      // En un flujo real, aquí redirigiríamos. Para esta demo, mostramos el éxito
-      setIsSuccess(true);
+      if (!order?.id) {
+        console.error("No order id returned:", order);
+        throw new Error("No se pudo crear la orden");
+      }
+
+      const res = await fetch("/api/bold/config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          locale,
+          orderId: String(order.id),
+          totalAmount: getTotalPrice(),
+          email: billingData.email,
+          name: billingData.name,
+          phone: billingData.phone,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Error al obtener config de pago");
+      }
+
+      const { config } = await res.json();
+      setBoldConfig(config);
+    } catch (error: any) {
+      console.error("Error processing checkout:", error);
+      toast.error("Error: " + (error.message || "Error desconocido"));
       setIsRedirecting(false);
       setLoading(false);
-      clearCart();
     }
   };
 
-  // Vista de éxito (Gracias por su compra)
-  if (isSuccess) {
-    return (
-      <div className={styles.wrapper} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-        <div className="container-custom flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-700">
-           <div className="bg-secondary p-12 md:p-20 rounded-[3rem] border border-border-color shadow-2xl max-w-3xl w-full">
-              <div className="w-24 h-24 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mb-10 mx-auto">
-                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-              <h1 className="text-serif text-5xl md:text-6xl mb-6">¡Gracias por tu compra!</h1>
-              <p className="text-xl md:text-2xl text-(--foreground)/60 mb-12 leading-relaxed">
-                Tu pedido ha sido procesado correctamente. <br className="hidden md:block" />
-                Hemos enviado la factura y los detalles de la compra al correo: <br/>
-                <strong className="text-accent-gold block mt-2 font-bold">{orderEmail}</strong>
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                 <a href={`/${locale}`} className="btn btn-primary px-10 py-5 uppercase tracking-widest font-black text-[11px] w-full sm:w-auto">
-                   Volver al Inicio
-                 </a>
-                 <a href={`/${locale}/productos`} className="btn btn-outline px-10 py-5 uppercase tracking-widest font-black text-[11px] w-full sm:w-auto">
-                   Seguir Comprando
-                 </a>
-              </div>
-           </div>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!boldConfig || !boldLibReady || typeof window === "undefined") return;
 
-  if (items.length === 0) {
+    const BoldCheckout = (window as any).BoldCheckout;
+    if (typeof BoldCheckout !== "function") {
+      console.error("BoldCheckout constructor not found on window");
+      toast.error("Error al cargar la pasarela de pago");
+      setIsRedirecting(false);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      boldCheckoutRef.current = new BoldCheckout({
+        ...boldConfig,
+        originUrl: window.location.href,
+      });
+    } catch (error: any) {
+      console.error("Bold checkout error:", error);
+      toast.error("Error al iniciar el pago");
+      setIsRedirecting(false);
+      setLoading(false);
+    }
+  }, [boldConfig, boldLibReady]);
+
+  if (items.length === 0 && !isRedirecting) {
     return (
-      <div className={styles.wrapper}>
-         <div className="p-20 text-center flex flex-col items-center gap-6">
+      <div className={styles.wrapper} style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
+         <div className="text-center flex flex-col items-center gap-6" style={{ padding: "2rem" }}>
             <h2 className="text-serif text-3xl">Tu carrito está vacío</h2>
             <p className="text-accent-gold font-bold uppercase tracking-widest text-[10px]">Agrega productos para continuar</p>
             <a href={`/${locale}/productos`} className="btn btn-primary px-8 py-3">Ver Productos</a>
@@ -153,20 +176,88 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
 
   return (
     <div className={styles.wrapper}>
-      {/* Loading Overlay */}
-      {isRedirecting && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex flex-col items-center justify-center text-white p-6 text-center">
-          <div className="w-16 h-16 border-4 border-accent-gold border-t-transparent rounded-full animate-spin mb-8" />
-          <h2 className="text-3xl font-normal mb-4" style={{ fontFamily: 'var(--font-serif)' }}>
-            {testMode ? 'Simulando Pago' : 'Redirigiendo al Pago'}
-          </h2>
-          <p className="text-white/60 max-w-md">
-            {testMode 
-              ? 'Estamos conectando con la plataforma de pago simulada de Antíca. Por favor no cierres esta ventana.' 
-              : 'Estamos conectando con nuestra pasarela segura para que completes tu transacción.'}
-          </p>
-        </div>
-      )}
+      <style>{`@keyframes overlay-spin { to { transform: rotate(360deg); } }`}</style>
+      <div
+        id="payment-overlay"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+          backgroundColor: isRedirecting ? 'rgba(0,0,0,0.85)' : 'transparent',
+          display: isRedirecting ? 'flex' : 'none',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          padding: '1.5rem',
+          textAlign: 'center',
+          transition: 'none',
+        }}
+      >
+        {!boldConfig ? (
+          <>
+            <div style={{
+              width: 64, height: 64,
+              border: '4px solid #CBA87C',
+              borderTopColor: 'transparent',
+              borderRadius: '50%',
+              animation: 'overlay-spin 1s linear infinite',
+              marginBottom: '2rem',
+            }} />
+            <h2 style={{ fontSize: '1.875rem', fontWeight: 400, marginBottom: '1rem', fontFamily: 'var(--font-serif)' }}>
+              {testMode ? 'Simulando Pago' : 'Redirigiendo al Pago'}
+            </h2>
+            <p style={{ opacity: 0.6, maxWidth: '28rem' }}>
+              {testMode
+                ? 'Estamos conectando con la plataforma de pago simulada de Antíca.'
+                : 'Estamos conectando con nuestra pasarela segura.'}
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 style={{ fontSize: '1.875rem', fontWeight: 400, marginBottom: '1rem', fontFamily: 'var(--font-serif)' }}>
+              {testMode ? 'Simular Pago' : 'Ir al Pago Seguro'}
+            </h2>
+            <p style={{ opacity: 0.6, maxWidth: '28rem', marginBottom: '2rem' }}>
+              Haz clic en el botón para continuar con el pago.
+            </p>
+            <button
+              id="custom-button-payment"
+              onClick={() => {
+                boldCheckoutRef.current?.open();
+              }}
+              style={{
+                padding: '1rem 3rem',
+                backgroundColor: '#CBA87C',
+                color: 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+              }}
+            >
+              Pagar ahora
+            </button>
+            <button
+              onClick={() => { setIsRedirecting(false); setLoading(false); setSubmitted(false); }}
+              style={{
+                color: 'rgba(255,255,255,0.4)',
+                fontSize: '0.75rem',
+                marginTop: '1rem',
+                textDecoration: 'underline',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              Cancelar
+            </button>
+          </>
+        )}
+      </div>
 
       <section
         className={styles.hero}
@@ -188,9 +279,8 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
 
       <div className={styles.container}>
         <div className={styles.grid}>
-          {/* Formulario Unificado */}
           <div className={styles.formCard}>
-            <form onSubmit={handleSubmit} className={styles.formSection}>
+            <form ref={formRef} className={styles.formSection}>
               <div className="flex items-center justify-between mb-8">
                 <h2 className={styles.formTitle} style={{ marginBottom: 0 }}>
                   {t("billingDetails") || "Detalles de Facturación"}
@@ -207,12 +297,14 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
                   <label className={styles.label}>{t("name")}</label>
                   <input name="name" placeholder="Ej. Juan Pérez" className={styles.input} required />
                 </div>
-
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>{t("email")}</label>
                   <input name="email" type="email" placeholder="juan@ejemplo.com" className={styles.input} required />
                 </div>
-
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>{t("phone")}</label>
+                  <input name="phone" type="tel" placeholder="+57 300 123 4567" className={styles.input} required />
+                </div>
                 <div className={styles.row}>
                   <div className={styles.inputGroup}>
                     <label className={styles.label}>Tipo de Documento</label>
@@ -227,29 +319,25 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
                     <input name="docId" placeholder="Número de documento" className={styles.input} required />
                   </div>
                 </div>
-
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>{t("address")}</label>
                   <input name="address" placeholder="Dirección completa" className={styles.input} required />
                 </div>
-
-                <button type="submit" className={styles.payButton} disabled={loading}>
+                <button type="button" className={styles.payButton} onClick={handlePay} disabled={submitted}>
                   {loading ? 'Procesando...' : (testMode ? 'Simular Pago y Finalizar' : 'Ir al Pago Seguro')}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Resumen Lateral */}
           <div className={styles.summary}>
             <h2 className={styles.summaryTitle}>{t("orderSummary")}</h2>
-            
             <div className={styles.itemsList}>
               {items.map((item) => (
                 <div key={item.id} className={styles.item}>
-                  <img 
-                    src={item.image_url || "/media/placeholder.png"} 
-                    alt={item.name[locale]} 
+                  <img
+                    src={item.image_url || "/media/placeholder.png"}
+                    alt={item.name[locale]}
                     className={styles.itemImage}
                   />
                   <div className={styles.itemInfo}>
@@ -262,7 +350,6 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
                 </div>
               ))}
             </div>
-
             <div className={styles.totals}>
               <div className={styles.subtotalRow}>
                 <span>Subtotal</span>
@@ -274,12 +361,9 @@ export default function CheckoutUI({ heroImage }: CheckoutUIProps) {
               </div>
               <div className={styles.totalRow}>
                 <span>{t("total")}</span>
-                <span>
-                  $ {getTotalPrice()} {currency}
-                </span>
+                <span>$ {getTotalPrice()} {currency}</span>
               </div>
             </div>
-
             <div className={styles.secureBadge}>
                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                {testMode ? 'Entorno de Pruebas Antíca' : 'Pago 100% Seguro'}

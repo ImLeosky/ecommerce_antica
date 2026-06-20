@@ -106,6 +106,9 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--accent-gold);
+    height: 2.4em;
+    line-height: 1.2;
+    overflow: hidden;
 }
 
 .input,
