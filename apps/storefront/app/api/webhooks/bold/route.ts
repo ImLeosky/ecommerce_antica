@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { createHmac } from "node:crypto";
+import { sendOrderConfirmation } from "@/lib/email";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -104,6 +105,12 @@ export async function POST(request: NextRequest) {
           console.error("Bold webhook: error updating order", linkError);
         }
       }
+    }
+
+    if (eventType === "SALE_APPROVED") {
+      sendOrderConfirmation(orderReference).catch((e) =>
+        console.error("Webhook: error sending confirmation email:", e)
+      );
     }
 
     return NextResponse.json({ received: true });

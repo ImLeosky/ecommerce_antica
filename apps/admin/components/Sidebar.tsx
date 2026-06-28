@@ -13,7 +13,8 @@ import {
   LogOut,
   Type,
   Image as ImageIcon,
-  Users
+  Users,
+  Mail,
 } from 'lucide-react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useLayout } from './LayoutContext'
@@ -34,6 +35,7 @@ const menuGroups = [
     items: [
       { label: 'CMS Texts', href: '/cms/texts', icon: Type },
       { label: 'CMS Media', href: '/cms/media', icon: ImageIcon },
+      { label: 'Email Templates', href: '/email-templates', icon: Mail },
     ]
   },
   {

@@ -1,6 +1,7 @@
 "use server";
 
 import { generateButtonConfig } from "@/lib/bold";
+import { sendOrderConfirmation } from "@/lib/email";
 
 export async function processCheckout(
   locale: string,
@@ -20,4 +21,8 @@ export async function processCheckout(
   );
 
   return config;
+}
+
+export async function sendConfirmationEmail(orderId: string) {
+  await sendOrderConfirmation(orderId);
 }

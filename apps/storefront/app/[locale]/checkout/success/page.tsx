@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { useCartStore } from "@/lib/cartStore";
+import { sendConfirmationEmail } from "@/lib/actions/checkout";
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
@@ -36,6 +37,9 @@ export default function CheckoutSuccessPage() {
 
       if (boldTxStatus === "approved") {
         clearCart();
+        sendConfirmationEmail(boldOrderId).catch((e) =>
+          console.error("Error sending confirmation email:", e)
+        );
       }
       setStatus(boldTxStatus === "approved" ? "success" : "error");
     };
