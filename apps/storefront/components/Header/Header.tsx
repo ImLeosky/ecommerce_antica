@@ -69,6 +69,7 @@ const Header = ({ logoUrl }: HeaderProps) => {
 
   const handleReserveClick = () => {
     if (typeof window !== "undefined") {
+      sessionStorage.setItem('openReservation', 'true');
       const event = new CustomEvent("start-reservation");
       window.dispatchEvent(event);
     }

@@ -67,6 +67,11 @@ export function CmsUploader({
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 
+  const isVideoUrl = (url: string) => {
+    if (typeof url !== 'string') return false;
+    return url.match(/\.(mp4|webm|ogg|mov)$/i);
+  };
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -75,12 +80,21 @@ export function CmsUploader({
 
     for (const file of files) {
       try {
-        const optimizedBlob = await optimizeImage(file);
-        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.webp`;
+        const isVideo = file.type.startsWith('video/');
+        let uploadBlob: Blob = file;
+        let fileName = "";
+
+        if (isVideo) {
+            const fileExt = file.name.split('.').pop();
+            fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+        } else {
+            uploadBlob = await optimizeImage(file);
+            fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.webp`;
+        }
 
         const { data: uploadData, error } = await supabase.storage
           .from("product-images")
-          .upload(fileName, optimizedBlob, {
+          .upload(fileName, uploadBlob, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -102,7 +116,7 @@ export function CmsUploader({
           setData(publicUrl);
         }
       } catch (err) {
-        console.error("Optimize error:", err);
+        console.error("Upload process error:", err);
       }
     }
 
@@ -129,11 +143,22 @@ export function CmsUploader({
         <div className="group">
           {data ? (
             <div className="relative inline-block border border-(--card-border) rounded-2xl overflow-hidden shadow-sm">
-              <img
-                src={data as string}
-                alt="Upload"
-                className="h-48 w-auto object-cover"
-              />
+              {isVideoUrl(data as string) ? (
+                <video
+                  src={data as string}
+                  className="h-48 w-auto object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={data as string}
+                  alt="Upload"
+                  className="h-48 w-auto object-cover"
+                />
+              )}
               <button
                 type="button"
                 onClick={removeSingle}
@@ -151,12 +176,12 @@ export function CmsUploader({
                   <UploadCloud className="w-10 h-10" />
                 )}
                 <span className="mt-3 text-[10px] font-bold uppercase tracking-widest">
-                  Subir Imagen
+                  Subir Archivo
                 </span>
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept="image/*,video/mp4,video/webm,video/quicktime"
                   onChange={handleUpload}
                   disabled={isUploading}
                 />
@@ -172,11 +197,22 @@ export function CmsUploader({
                 key={index}
                 className="relative inline-block border border-(--card-border) rounded-2xl overflow-hidden shadow-sm"
               >
-                <img
-                  src={url}
-                  alt={`Gallery ${index}`}
-                  className="h-32 w-32 object-cover"
-                />
+                {isVideoUrl(url) ? (
+                  <video
+                    src={url}
+                    className="h-32 w-32 object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={url}
+                    alt={`Gallery ${index}`}
+                    className="h-32 w-32 object-cover"
+                  />
+                )}
                 <button
                   type="button"
                   onClick={() => removeGalleryImage(url)}
@@ -196,7 +232,7 @@ export function CmsUploader({
               <input
                 type="file"
                 className="hidden"
-                accept="image/*"
+                accept="image/*,video/mp4,video/webm,video/quicktime"
                 multiple
                 onChange={handleUpload}
                 disabled={isUploading}

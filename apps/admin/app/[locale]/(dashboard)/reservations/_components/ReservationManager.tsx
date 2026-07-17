@@ -357,9 +357,28 @@ export function ReservationManager({ initialReservations }: { initialReservation
                 </div>
 
                 <div className="pt-2">
-                  <p className="text-[8px] font-bold uppercase tracking-widest text-accent-gold/60 mb-2">Notas Especiales</p>
-                  <div className="p-4 rounded-2xl bg-accent-gold/[0.03] border border-accent-gold/10 italic text-sm text-(--foreground)/80 leading-relaxed">
-                    {selectedRes.pre_order || 'No se incluyeron requerimientos especiales.'}
+                  <p className="text-[8px] font-bold uppercase tracking-widest text-accent-gold/60 mb-2">Pre-orden & Notas</p>
+                  <div className="p-4 rounded-2xl bg-accent-gold/[0.03] border border-accent-gold/10 text-sm text-(--foreground)/80 leading-relaxed">
+                    {selectedRes.pre_order ? (
+                      <div>
+                        {selectedRes.pre_order.includes(' | Notas: ') ? (
+                          <>
+                            <div className="font-medium mb-3 pb-3 border-b border-accent-gold/10">
+                              <span className="text-[9px] uppercase font-bold text-accent-gold/60 block mb-1 tracking-wider">Productos solicitados:</span>
+                              {selectedRes.pre_order.split(' | Notas: ')[0]}
+                            </div>
+                            <div className="italic">
+                              <span className="text-[9px] uppercase font-bold text-accent-gold/60 block mb-1 not-italic tracking-wider">Notas adicionales:</span>
+                              {selectedRes.pre_order.split(' | Notas: ')[1]}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="italic">{selectedRes.pre_order}</div>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="italic">No se incluyeron requerimientos especiales ni pre-órdenes.</span>
+                    )}
                   </div>
                 </div>
               </div>

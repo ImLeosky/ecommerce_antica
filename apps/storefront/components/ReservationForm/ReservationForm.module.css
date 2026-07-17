@@ -270,3 +270,29 @@
     grid-template-columns: 1fr;
   }
 }
+
+.productsContainer {
+  max-height: 35vh;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 10px;
+}
+
+/* Custom Scrollbar for Pre-order Products */
+.productsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.productsContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.productsContainer::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 4px;
+}
+
+.productsContainer::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+}

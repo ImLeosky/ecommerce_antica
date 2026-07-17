@@ -1,8 +1,21 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { supabase } from '@/lib/supabaseClient';
 import styles from './ReservationForm.module.css';
+
+type MenuItem = {
+  id: number;
+  name: Record<string, string>;
+  price: number;
+};
+
+type MenuCategory = {
+  id: number;
+  name: Record<string, string>;
+  products: MenuItem[];
+};
 
 type FormState = {
     success: boolean;
@@ -29,16 +42,88 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
         phone: '',
     });
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [categories, setCategories] = useState<MenuCategory[]>([]);
+    const [quantities, setQuantities] = useState<Record<number, number>>({});
+    const locale = useLocale();
 
     useEffect(() => {
+        const fetchMenu = async () => {
+            const { data, error } = await supabase
+                .from('categories')
+                .select(`
+                    id,
+                    name,
+                    products!inner (
+                        id,
+                        name,
+                        price
+                    )
+                `)
+                .eq('products.available', true)
+                .eq('exclude_from_menu', false)
+                .order('sort_order', { ascending: true })
+                .order('id', { foreignTable: 'products', ascending: true });
+                
+            if (!error && data) {
+                const excludedKeywords = ['artesania', 'artesanía', 'experiencia', 'cafe de origen', 'café de origen'];
+                const filteredCategories = data.filter(cat => {
+                    const nameEs = cat.name?.es?.toLowerCase() || '';
+                    return !excludedKeywords.some(keyword => nameEs.includes(keyword));
+                });
+                setCategories(filteredCategories);
+            }
+        };
+        fetchMenu();
+    }, []);
+
+    useEffect(() => {
+        const scrollToReservation = () => {
+            const el = document.getElementById('reservation');
+            if (!el) return;
+            
+            const headerOffset = 110;
+
+            // 1. Initial smooth scroll
+            setTimeout(() => {
+                const rect = el.getBoundingClientRect();
+                window.scrollTo({
+                        top: window.scrollY + rect.top - headerOffset,
+                        behavior: "smooth"
+                });
+            }, 100);
+
+            // 2. Use a ResizeObserver to instantly snap back if dynamic content (like CafeMenu) shifts the layout
+            const resizeObserver = new ResizeObserver(() => {
+                const rect = el.getBoundingClientRect();
+                // Si el elemento se movió de su posición anclada, lo corregimos inmediatamente (sin animación)
+                if (Math.abs(rect.top - headerOffset) > 5) {
+                    window.scrollTo({
+                            top: window.scrollY + rect.top - headerOffset,
+                            behavior: "auto"
+                    });
+                }
+            });
+
+            resizeObserver.observe(document.body);
+
+            // 3. Cleanup after 3 seconds (when all images and queries are completely loaded)
+            setTimeout(() => {
+                resizeObserver.disconnect();
+            }, 3000);
+        };
+
         const handleStartReservation = () => {
             setStep(1);
+            scrollToReservation();
         };
 
         if (typeof window !== "undefined") {
-            // Check initial hash on mount
-            if (window.location.hash === '#reservation') {
+            // Check initial hash or session storage on mount
+            const shouldOpen = window.location.hash === '#reservation' || sessionStorage.getItem('openReservation') === 'true';
+            if (shouldOpen) {
+                sessionStorage.removeItem('openReservation');
                 setStep(1);
+                scrollToReservation();
             }
 
             window.addEventListener('start-reservation', handleStartReservation);
@@ -46,6 +131,7 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
             const handleHashChange = () => {
                 if (window.location.hash === '#reservation') {
                     setStep(1);
+                    scrollToReservation();
                 }
             };
             window.addEventListener('hashchange', handleHashChange);
@@ -127,6 +213,20 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
         if (!validateDateTime(formData.date, formData.time)) return;
         
         setIsSubmitting(true);
+
+        const preOrderItems: string[] = [];
+        categories.forEach(cat => {
+            cat.products.forEach(prod => {
+                if ((quantities[prod.id] || 0) > 0) {
+                    preOrderItems.push(`${quantities[prod.id]}x ${prod.name[locale as 'es' | 'en'] || prod.name.es}`);
+                }
+            });
+        });
+        
+        let finalPreOrder = preOrderItems.join(', ');
+        if (hasSelectedItems && formData.preOrder) {
+            finalPreOrder = finalPreOrder ? `${finalPreOrder} | Notas: ${formData.preOrder}` : formData.preOrder;
+        }
         
         try {
             const { supabase } = await import('@/lib/supabaseClient');
@@ -137,7 +237,7 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
                 reservation_date: formData.date,
                 reservation_time: formData.time,
                 number_of_guests: parseInt(formData.guests, 10),
-                pre_order: formData.preOrder,
+                pre_order: finalPreOrder,
                 space_preference: formData.space
             });
 
@@ -160,6 +260,7 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
 
     // Calculate progress percentage
     const progress = ((step - 1) / 4) * 100;
+    const hasSelectedItems = Object.values(quantities).reduce((acc, qty) => acc + qty, 0) > 0;
 
     if (step === 0) {
         return (
@@ -262,16 +363,35 @@ const ReservationForm = ({ reservationBg }: { reservationBg?: string }) => {
                                 <div className={styles.stepHeader}>
                                     <h3 className={styles.stepTitle}>{t('stepPreOrder')}</h3>
                                 </div>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>{t('preOrderLabel')}</label>
-                                    <textarea 
-                                        value={formData.preOrder}
-                                        onChange={(e) => updateFormData('preOrder', e.target.value)}
-                                        className={styles.textarea}
-                                        placeholder={t('preOrderPlaceholder')}
-                                        rows={4}
-                                    />
+                                <div className={styles.productsContainer}>
+                                    {categories.map(cat => (
+                                        <div key={cat.id} style={{ marginBottom: '1.5rem' }}>
+                                            <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--primary)', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '0.2rem' }}>{cat.name[locale] || cat.name.es}</h4>
+                                            {cat.products.map(prod => (
+                                                <div key={prod.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                                    <span style={{ fontSize: '0.95rem' }}>{prod.name[locale] || prod.name.es} <span style={{ opacity: 0.7, fontSize: '0.85rem' }}>(${prod.price})</span></span>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                        <button type="button" onClick={() => setQuantities(prev => ({ ...prev, [prod.id]: Math.max(0, (prev[prod.id] || 0) - 1) }))} style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
+                                                        <span style={{ width: '20px', textAlign: 'center', fontWeight: 'bold' }}>{quantities[prod.id] || 0}</span>
+                                                        <button type="button" onClick={() => setQuantities(prev => ({ ...prev, [prod.id]: (prev[prod.id] || 0) + 1 }))} style={{ background: 'var(--primary)', color: '#fff', border: 'none', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
                                 </div>
+                                {hasSelectedItems && (
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Notas del pedido (Opcional)</label>
+                                        <textarea 
+                                            value={formData.preOrder}
+                                            onChange={(e) => updateFormData('preOrder', e.target.value)}
+                                            className={styles.textarea}
+                                            placeholder="Ingresa notas adicionales para tu pedido..."
+                                            rows={2}
+                                        />
+                                    </div>
+                                )}
                                 <div className={styles.buttonGroup}>
                                     <button type="button" onClick={prevStep} className={styles.backBtn}>{t('back')}</button>
                                     <button type="button" onClick={nextStep} className={`${styles.nextBtn} btn btn-primary`}>{t('next')}</button>
